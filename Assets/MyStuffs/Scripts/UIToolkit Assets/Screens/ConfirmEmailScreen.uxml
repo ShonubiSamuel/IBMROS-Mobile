@@ -1,0 +1,69 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MyStuffs/Scripts/UIToolkit%20Assets/Styles/ConfirmEmailScreen.uss?fileID=7433441132597879392&amp;guid=f117893cd6d9439eae28fbcc05787fd9&amp;type=3#ConfirmEmailScreen"/>
+    <Style src="project://database/Assets/MyStuffs/Scripts/UIToolkit%20Assets/Styles/IbmRosTheme.uss?fileID=7433441132597879392&amp;guid=934fe7e1c0c5c4bf4a36002625785e6f&amp;type=3#IbmRosTheme"/>
+    <Style src="project://database/Assets/MyStuffs/Scripts/UIToolkit%20Assets/Styles/SharedComponents.uss?fileID=7433441132597879392&amp;guid=3d127506307fe459a827bfc49b978dd4&amp;type=3#SharedComponents"/>
+    <ui:VisualElement name="ConfirmEmailScreen" class="confirm-email-root">
+        <ui:VisualElement name="ConfirmEmailBackground" class="confirm-email-background">
+            <ui:VisualElement name="GlowCenter" class="confirm-email-glow"/>
+        </ui:VisualElement>
+        <ui:ScrollView name="ConfirmEmailScroll" horizontal-scrolling-enabled="false" vertical-scrolling-enabled="true" mouse-wheel-scroll-size="80" class="confirm-email-scroll">
+            <ui:VisualElement name="ConfirmEmailContent" class="confirm-email-content">
+                <ui:VisualElement name="BackRow" class="back-row">
+                    <ui:Button name="BackToSignUpButton" class="back-button">
+                        <ui:Label name="BackIcon" text="←" class="back-button__icon-text"/>
+                        <ui:Label name="BackText" text="Sign up" class="back-button__text"/>
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:VisualElement name="StepIndicator" class="step-indicator">
+                    <ui:VisualElement name="Step1Dot" class="step-dot step-dot--complete"/>
+                    <ui:VisualElement name="Step2Dot" class="step-dot step-dot--active"/>
+                    <ui:VisualElement name="Step3Dot" class="step-dot"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="IconSection" class="confirm-email-icon-section">
+                    <ui:VisualElement name="EmailIconContainer" class="confirm-email-icon-container">
+                        <ui:Label name="EmailIcon" text="✉" class="confirm-email-icon"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="HeaderSection" class="confirm-email-header">
+                    <ui:Label name="Title" text="Check your email" class="text-h2 text-center"/>
+                    <ui:Label name="Subtitle" text="We sent a 6-digit verification code to" class="text-body text-center mt-2"/>
+                    <ui:Label name="EmailDisplay" text="" class="confirm-email-address mt-1"/>
+                    <ui:Label name="SubtitleNote" text="Enter the code below to verify your account" class="text-body-sm text-center mt-2"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="AuthCard" class="auth-card mt-6">
+                    <ui:VisualElement name="FeedbackBanner" class="feedback-banner">
+                        <ui:Label name="FeedbackIcon" text="!" class="feedback-banner__icon-text"/>
+                        <ui:Label name="FeedbackText" text="" class="feedback-banner__text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="CodeSection" class="confirm-email-code-section">
+                        <ui:Label name="CodeLabel" text="VERIFICATION CODE" class="input-label"/>
+                        <ui:VisualElement name="CodeBoxRow" class="confirm-email-code-row">
+                            <ui:TextField name="CodeBox1" max-length="1" class="confirm-email-code-box"/>
+                            <ui:TextField name="CodeBox2" max-length="1" class="confirm-email-code-box"/>
+                            <ui:TextField name="CodeBox3" max-length="1" class="confirm-email-code-box"/>
+                            <ui:TextField name="CodeBox4" max-length="1" class="confirm-email-code-box"/>
+                            <ui:TextField name="CodeBox5" max-length="1" class="confirm-email-code-box"/>
+                            <ui:TextField name="CodeBox6" max-length="1" class="confirm-email-code-box"/>
+                        </ui:VisualElement>
+                        <ui:Label name="CodeError" text="" class="input-error-text text-center mt-2"/>
+                    </ui:VisualElement>
+                    <ui:Button name="ConfirmButton" text="VERIFY EMAIL" class="btn btn-primary mt-6"/>
+                    <ui:VisualElement name="ResendSection" class="confirm-email-resend-section mt-6">
+                        <ui:Label name="ResendPrompt" text="Didn&apos;t receive the code?" class="text-body text-center"/>
+                        <ui:Button name="ResendCodeButton" text="Resend code" class="btn-ghost mt-1"/>
+                        <ui:Label name="CountdownText" text="" class="countdown-text"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="SpamNote" class="confirm-email-spam-note mt-4">
+                    <ui:Label name="SpamNoteText" text="🔒 Can&apos;t find the email? Check your spam or junk folder." class="text-caption text-center"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement name="LoadingOverlay" class="loading-overlay">
+            <ui:VisualElement name="LoadingCard" class="loading-card">
+                <ui:VisualElement name="LoadingSpinner" class="loading-spinner"/>
+                <ui:Label name="LoadingText" text="Verifying code..." class="loading-text"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
