@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ui="UnityEngine.UIElements"
+         xmlns:uie="UnityEditor.UIElements"
+         noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/RoomUI.uss?fileID=7433441132597879392&amp;guid=22a84e73477c440cac363bd8f62d6817&amp;type=3#RoomUI"/>
+
+    <ui:VisualElement name="Root" class="root" picking-mode="Ignore">
+
+        <ui:VisualElement name="TopBar" class="top-bar">
+            <ui:Button name="CloseButton" class="top-bar__button top-bar__button--close">
+                <ui:Label text="✕" class="top-bar__icon"/>
+            </ui:Button>
+            <ui:VisualElement class="top-bar__spacer" picking-mode="Ignore"/>
+            <ui:Button name="UndoButton" class="top-bar__button">
+                <ui:Label text="↶" class="top-bar__icon"/>
+            </ui:Button>
+            <ui:Button name="ScreenshotButton" class="top-bar__button">
+                <ui:Label text="CAM" class="top-bar__icon"/>
+            </ui:Button>
+            <ui:Button name="ShareButton" class="top-bar__button">
+                <ui:Label text="↗" class="top-bar__icon"/>
+            </ui:Button>
+            <ui:Button name="MoreButton" class="top-bar__button">
+                <ui:Label text="⋯" class="top-bar__icon"/>
+            </ui:Button>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="BottomBar" class="bottom-bar" picking-mode="Ignore">
+            <ui:Button name="Open2DPlanButton" class="bottom-bar__button bottom-bar__button--left">
+                <ui:Label text="△" class="bottom-bar__icon"/>
+                <ui:Label text="Open 2D plan" class="bottom-bar__label"/>
+            </ui:Button>
+            <ui:VisualElement class="bottom-bar__center" picking-mode="Ignore"/>
+            <ui:Button name="AddFurnitureButton" class="bottom-bar__button bottom-bar__button--right">
+                <ui:Label text="+" class="bottom-bar__icon bottom-bar__icon--large"/>
+                <ui:Label text="Add Furniture" class="bottom-bar__label"/>
+            </ui:Button>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

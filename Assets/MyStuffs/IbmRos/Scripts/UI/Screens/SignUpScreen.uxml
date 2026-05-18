@@ -1,0 +1,106 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&amp;guid=934fe7e1c0c5c4bf4a36002625785e6f&amp;type=3#IbmRosTheme"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/SignUpScreen.uss?fileID=7433441132597879392&amp;guid=7538ca896ae2f468bb95c1f8a026d971&amp;type=3#SignUpScreen"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/SharedComponents.uss?fileID=7433441132597879392&amp;guid=3d127506307fe459a827bfc49b978dd4&amp;type=3#SharedComponents"/>
+    <ui:VisualElement name="SignUpScreen" class="signup-root">
+        <ui:VisualElement name="SignUpBackground" class="signup-background">
+            <ui:VisualElement name="GlowTop" class="signup-glow signup-glow--top"/>
+            <ui:VisualElement name="GlowBottom" class="signup-glow signup-glow--bottom"/>
+        </ui:VisualElement>
+        <ui:ScrollView name="SignUpScroll" horizontal-scrolling-enabled="false" vertical-scrolling-enabled="true" mouse-wheel-scroll-size="80" class="signup-scroll">
+            <ui:VisualElement name="SignUpContent" class="signup-content">
+                <ui:VisualElement name="BackRow" class="back-row">
+                    <ui:Button name="BackToLoginButton" class="back-button">
+                        <ui:Label name="BackIcon" text="←" class="back-button__icon-text"/>
+                        <ui:Label name="BackText" text="Sign in" class="back-button__text"/>
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:VisualElement name="StepIndicator" class="step-indicator">
+                    <ui:VisualElement name="Step1Dot" class="step-dot step-dot--active"/>
+                    <ui:VisualElement name="Step2Dot" class="step-dot"/>
+                    <ui:VisualElement name="Step3Dot" class="step-dot"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="HeaderSection" class="signup-header">
+                    <ui:VisualElement name="LogoMark" class="signup-logo-mark">
+                        <ui:Label name="LogoInitials" text="IR" class="signup-logo-initials"/>
+                    </ui:VisualElement>
+                    <ui:Label name="Title" text="Create account" class="text-h2 mt-4"/>
+                    <ui:Label name="Subtitle" text="Join IBMROS to visualize your space" class="text-body mt-1"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="AuthCard" class="auth-card mt-6">
+                    <ui:VisualElement name="FeedbackBanner" class="feedback-banner">
+                        <ui:Label name="FeedbackIcon" text="!" class="feedback-banner__icon-text"/>
+                        <ui:Label name="FeedbackText" text="" class="feedback-banner__text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="FormSection" class="signup-form">
+                        <ui:VisualElement name="EmailWrapper" class="input-wrapper">
+                            <ui:Label name="EmailLabel" text="EMAIL ADDRESS" class="input-label"/>
+                            <ui:TextField name="EmailInput" placeholder-text="you@example.com" keyboard-type="EmailAddress" class="input-field"/>
+                            <ui:Label name="EmailError" text="" class="input-error-text"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="PasswordWrapper" class="input-wrapper mt-2">
+                            <ui:Label name="PasswordLabel" text="PASSWORD" class="input-label"/>
+                            <ui:VisualElement name="PasswordInputRow" class="input-password-row">
+                                <ui:TextField name="PasswordInput" placeholder-text="Min 8 characters" password="true" class="input-field"/>
+                                <ui:Button name="PasswordToggle" text="👁" class="input-password-toggle"/>
+                            </ui:VisualElement>
+                            <ui:Label name="PasswordError" text="" class="input-error-text"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="ConfirmPasswordWrapper" class="input-wrapper mt-2">
+                            <ui:Label name="ConfirmPasswordLabel" text="CONFIRM PASSWORD" class="input-label"/>
+                            <ui:VisualElement name="ConfirmPasswordInputRow" class="input-password-row">
+                                <ui:TextField name="ConfirmPasswordInput" placeholder-text="Repeat your password" password="true" class="input-field"/>
+                                <ui:Button name="ConfirmPasswordToggle" text="👁" class="input-password-toggle"/>
+                            </ui:VisualElement>
+                            <ui:Label name="ConfirmPasswordError" text="" class="input-error-text"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="PasswordStrengthSection" class="signup-strength-section mt-2">
+                            <ui:VisualElement name="StrengthBar" class="signup-strength-bar">
+                                <ui:VisualElement name="StrengthFill" class="signup-strength-fill"/>
+                            </ui:VisualElement>
+                            <ui:Label name="StrengthLabel" text="" class="signup-strength-label"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="PasswordRequirements" class="signup-requirements mt-3">
+                            <ui:VisualElement name="Req1Row" class="signup-req-row">
+                                <ui:Label name="Req1Icon" text="●" class="signup-req-icon"/>
+                                <ui:Label name="Req1Text" text="At least 8 characters" class="signup-req-text"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="Req2Row" class="signup-req-row">
+                                <ui:Label name="Req2Icon" text="●" class="signup-req-icon"/>
+                                <ui:Label name="Req2Text" text="One uppercase letter" class="signup-req-text"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="Req3Row" class="signup-req-row">
+                                <ui:Label name="Req3Icon" text="●" class="signup-req-icon"/>
+                                <ui:Label name="Req3Text" text="One number" class="signup-req-text"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="Req4Row" class="signup-req-row">
+                                <ui:Label name="Req4Icon" text="●" class="signup-req-icon"/>
+                                <ui:Label name="Req4Text" text="One special character" class="signup-req-text"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="TermsRow" class="signup-terms-row mt-6">
+                        <ui:Label name="TermsText" text="By creating an account you agree to our " class="text-body-sm"/>
+                        <ui:Button name="TermsButton" text="Terms of Service" class="btn-ghost signup-terms-btn"/>
+                    </ui:VisualElement>
+                    <ui:Button name="SignUpButton" text="CREATE ACCOUNT" class="btn btn-primary mt-4"/>
+                    <ui:VisualElement name="DividerRow" class="divider-with-text mt-6">
+                        <ui:VisualElement name="DividerLeft" class="divider-line"/>
+                        <ui:Label name="DividerLabel" text="OR" class="divider-label"/>
+                        <ui:VisualElement name="DividerRight" class="divider-line"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="LoginRow" class="signup-login-row mt-4">
+                        <ui:Label name="LoginPrompt" text="Already have an account?" class="text-body"/>
+                        <ui:Button name="GoToLoginButton" text="Sign in" class="btn-ghost"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement name="LoadingOverlay" class="loading-overlay">
+            <ui:VisualElement name="LoadingCard" class="loading-card">
+                <ui:VisualElement name="LoadingSpinner" class="loading-spinner"/>
+                <ui:Label name="LoadingText" text="Creating account..." class="loading-text"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

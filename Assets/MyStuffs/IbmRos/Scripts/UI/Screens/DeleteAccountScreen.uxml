@@ -1,0 +1,92 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&amp;guid=934fe7e1c0c5c4bf4a36002625785e6f&amp;type=3#IbmRosTheme"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/DeleteAccountScreen.uss?fileID=7433441132597879392&amp;guid=aed44017fafd4da4a2078693e724ee3a&amp;type=3#DeleteAccountScreen"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/SharedComponents.uss?fileID=7433441132597879392&amp;guid=3d127506307fe459a827bfc49b978dd4&amp;type=3#SharedComponents"/>
+    <ui:VisualElement name="DeleteAccountScreen" class="delete-account-root">
+        <ui:VisualElement name="DeleteAccountBackground" class="delete-account-background">
+            <ui:VisualElement name="GlowCenter" class="delete-account-glow"/>
+        </ui:VisualElement>
+        <ui:ScrollView name="DeleteAccountScroll" horizontal-scrolling-enabled="false" vertical-scrolling-enabled="true" mouse-wheel-scroll-size="80" class="delete-account-scroll">
+            <ui:VisualElement name="DeleteAccountContent" class="delete-account-content">
+                <ui:VisualElement name="BackRow" class="back-row">
+                    <ui:Button name="BackToMainButton" class="back-button">
+                        <ui:Label name="BackIcon" text="←" class="back-button__icon-text"/>
+                        <ui:Label name="BackText" text="Back" class="back-button__text"/>
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:VisualElement name="IconSection" class="delete-account-icon-section">
+                    <ui:VisualElement name="DangerIconContainer" class="delete-account-icon-container">
+                        <ui:Label name="DangerIcon" text="⚠" class="delete-account-icon"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="HeaderSection" class="delete-account-header">
+                    <ui:Label name="Title" text="Delete account" class="text-h2 text-center"/>
+                    <ui:Label name="Subtitle" text="This action is permanent and cannot be undone" class="delete-account-subtitle mt-2"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="ConsequencesCard" class="delete-account-consequences-card mt-6">
+                    <ui:Label name="ConsequencesTitle" text="What will be deleted" class="delete-account-consequences-title"/>
+                    <ui:VisualElement name="ConsequenceItem1" class="delete-account-consequence-row mt-3">
+                        <ui:Label name="ConsequenceIcon1" text="✖" class="delete-account-consequence-icon"/>
+                        <ui:Label name="ConsequenceText1" text="Your account and profile information" class="delete-account-consequence-text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ConsequenceItem2" class="delete-account-consequence-row mt-2">
+                        <ui:Label name="ConsequenceIcon2" text="✖" class="delete-account-consequence-icon"/>
+                        <ui:Label name="ConsequenceText2" text="All saved room layouts and designs" class="delete-account-consequence-text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ConsequenceItem3" class="delete-account-consequence-row mt-2">
+                        <ui:Label name="ConsequenceIcon3" text="✖" class="delete-account-consequence-icon"/>
+                        <ui:Label name="ConsequenceText3" text="Your wishlist and saved furniture" class="delete-account-consequence-text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ConsequenceItem4" class="delete-account-consequence-row mt-2">
+                        <ui:Label name="ConsequenceIcon4" text="✖" class="delete-account-consequence-icon"/>
+                        <ui:Label name="ConsequenceText4" text="Your order history and preferences" class="delete-account-consequence-text"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="AuthCard" class="auth-card mt-5">
+                    <ui:VisualElement name="FeedbackBanner" class="feedback-banner">
+                        <ui:Label name="FeedbackIcon" text="!" class="feedback-banner__icon-text"/>
+                        <ui:Label name="FeedbackText" text="" class="feedback-banner__text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="FormSection" class="delete-account-form">
+                        <ui:VisualElement name="AccountRow" class="delete-account-account-row">
+                            <ui:VisualElement name="AccountAvatar" class="avatar avatar--sm">
+                                <ui:Label name="AccountInitials" text="" class="avatar__initials"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="AccountInfo" class="delete-account-account-info">
+                                <ui:Label name="AccountLabel" text="Deleting account" class="delete-account-account-label"/>
+                                <ui:Label name="AccountEmail" text="" class="delete-account-account-email"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="FormDivider" class="divider mt-4 mb-2"/>
+                        <ui:VisualElement name="PasswordWrapper" class="input-wrapper mt-2">
+                            <ui:Label name="PasswordLabel" text="CONFIRM YOUR PASSWORD" class="input-label"/>
+                            <ui:VisualElement name="PasswordInputRow" class="input-password-row">
+                                <ui:TextField name="PasswordInput" placeholder-text="Enter your password to confirm" password="true" class="input-field"/>
+                                <ui:Button name="PasswordToggle" text="👁" class="input-password-toggle"/>
+                            </ui:VisualElement>
+                            <ui:Label name="PasswordError" text="" class="input-error-text"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="CheckboxRow" class="delete-account-checkbox-row mt-4">
+                            <ui:Button name="ConfirmCheckbox" class="delete-account-checkbox">
+                                <ui:Label name="CheckboxIcon" text="" class="delete-account-checkbox-icon"/>
+                            </ui:Button>
+                            <ui:Label name="CheckboxLabel" text="I understand this action is permanent and cannot be reversed" class="delete-account-checkbox-label"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:Button name="ConfirmDeleteButton" text="DELETE MY ACCOUNT" class="btn btn-danger mt-6"/>
+                    <ui:Button name="CancelButton" text="Cancel, keep my account" class="btn btn-secondary mt-3"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="HelpNote" class="delete-account-help-note mt-4">
+                    <ui:Label name="HelpText" text="Changed your mind? You can deactivate your account instead by contacting support." class="delete-account-help-text"/>
+                    <ui:Button name="ContactSupportButton" text="Contact Support" class="btn-ghost delete-account-support-btn mt-2"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement name="LoadingOverlay" class="loading-overlay">
+            <ui:VisualElement name="LoadingCard" class="loading-card">
+                <ui:VisualElement name="LoadingSpinner" class="loading-spinner"/>
+                <ui:Label name="LoadingText" text="Deleting account..." class="loading-text"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

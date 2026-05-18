@@ -1,0 +1,746 @@
+@import url("project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&guid=934fe7e1c0c5c4bf4a36002625785e6f&type=3#IbmRosTheme");
+/* ============================================
+   IBMROS SHARED COMPONENTS
+   Reusable UI components used across all screens
+============================================ */
+
+
+/* ============================================
+   BUTTONS
+============================================ */
+
+/* Base button - all buttons inherit from this */
+.btn {
+    height: var(--button-height-md);
+    border-radius: var(--radius-full);
+    border-width: 0;
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    cursor: link;
+    transition-duration: var(--transition-normal);
+    width: 100%;
+}
+
+.btn Label {
+    font-size: var(--font-size-md);
+    -unity-font-style: bold;
+    letter-spacing: var(--letter-spacing-wide);
+    -unity-text-align: middle-center;
+}
+
+/* Primary button - main call to action */
+.btn-primary {
+    background-color: var(--color-brand-secondary);
+    height: var(--button-height-lg);
+}
+
+.btn-primary Label {
+    color: var(--color-text-primary);
+}
+
+.btn-primary:hover {
+    background-color: #2196F3;
+}
+
+.btn-primary:active {
+    background-color: #0060CC;
+    scale: 0.98;
+}
+
+.btn-primary:disabled {
+    background-color: var(--color-bg-elevated);
+    opacity: 0.5;
+}
+
+/* Secondary button - outlined style */
+.btn-secondary {
+    background-color: transparent;
+    border-width: 1.5px;
+    border-color: var(--color-border-active);
+    height: var(--button-height-md);
+}
+
+.btn-secondary Label {
+    color: var(--color-brand-secondary);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(10, 132, 255, 0.08);
+}
+
+.btn-secondary:active {
+    background-color: rgba(10, 132, 255, 0.15);
+    scale: 0.98;
+}
+
+.btn-secondary:disabled {
+    border-color: var(--color-border-subtle);
+    opacity: 0.5;
+}
+
+/* Ghost button - no border, text only */
+.btn-ghost {
+    background-color: transparent;
+    border-width: 0;
+    height: var(--button-height-sm);
+    width: auto;
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+}
+
+.btn-ghost Label {
+    color: var(--color-text-link);
+    font-size: var(--font-size-md);
+}
+
+.btn-ghost:hover Label {
+    color: #2196F3;
+}
+
+.btn-ghost:active Label {
+    color: #0060CC;
+}
+
+/* Danger button - destructive actions */
+.btn-danger {
+    background-color: var(--color-error);
+    height: var(--button-height-lg);
+}
+
+.btn-danger Label {
+    color: var(--color-text-primary);
+}
+
+.btn-danger:hover {
+    background-color: #F87171;
+}
+
+.btn-danger:active {
+    background-color: #DC2626;
+    scale: 0.98;
+}
+
+.btn-danger:disabled {
+    opacity: 0.5;
+}
+
+/* Small button variant */
+.btn-sm {
+    height: var(--button-height-sm);
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+}
+
+.btn-sm Label {
+    font-size: var(--font-size-sm);
+}
+
+/* Icon button - square, for icon only buttons */
+.btn-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-elevated);
+    border-width: 1px;
+    border-color: var(--color-border-subtle);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: auto;
+}
+
+.btn-icon:hover {
+    background-color: var(--color-bg-input-focus);
+    border-color: var(--color-border-active);
+}
+
+.btn-icon:active {
+    scale: 0.95;
+}
+
+
+/* ============================================
+   INPUT FIELDS
+============================================ */
+
+/* Input wrapper holds label, field, and error message */
+.input-wrapper {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: var(--space-4);
+}
+
+/* Input label above the field */
+.input-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+    letter-spacing: var(--letter-spacing-wide);
+    -unity-font-style: bold;
+}
+
+/* The actual TextField element */
+.input-field {
+    height: var(--input-height);
+    background-color: var(--color-bg-input);
+    border-radius: var(--radius-md);
+    border-width: 1.5px;
+    border-color: var(--color-border-default);
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    transition-duration: var(--transition-fast);
+}
+
+.input-field > .unity-base-field__input {
+    background-color: transparent;
+    border-width: 0;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    padding: 0;
+    -unity-text-align: middle-left;
+}
+
+.input-field > .unity-base-field__input #unity-text-input {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    -unity-text-align: middle-left;
+}
+
+/* Placeholder text color */
+.input-field > .unity-base-field__input > #unity-text-input {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    -unity-text-align: middle-left;
+}
+
+/* Focused state */
+.input-field:focus {
+    border-color: var(--color-border-active);
+    background-color: var(--color-bg-input-focus);
+}
+
+/* Error state */
+.input-field--error {
+    border-color: var(--color-border-error);
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+.input-field--error:focus {
+    border-color: var(--color-border-error);
+}
+
+/* Success state */
+.input-field--success {
+    border-color: var(--color-border-success);
+}
+
+/* Disabled state */
+.input-field:disabled {
+    opacity: 0.5;
+    cursor: arrow;
+}
+
+/* Inline error message below input */
+.input-error-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    margin-top: var(--space-1);
+    display: none;
+}
+
+.input-error-text--visible {
+    display: flex;
+}
+
+/* Password field row holds input and show/hide toggle */
+.input-password-row {
+    flex-direction: row;
+    align-items: center;
+    height: var(--input-height);
+    background-color: var(--color-bg-input);
+    border-radius: var(--radius-md);
+    border-width: 1.5px;
+    border-color: var(--color-border-default);
+    padding-right: var(--space-3);
+    transition-duration: var(--transition-fast);
+}
+
+.input-password-row--focused {
+    border-color: var(--color-border-active);
+    background-color: var(--color-bg-input-focus);
+}
+
+.input-password-row .input-field {
+    flex-grow: 1;
+    height: 100%;
+    border-width: 0;
+    background-color: transparent;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+/* Show/hide password toggle inside password field */
+.input-password-toggle {
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border-width: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: link;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.input-password-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+
+/* ============================================
+   FEEDBACK MESSAGES
+============================================ */
+
+/* Base feedback banner */
+.feedback-banner {
+    width: 100%;
+    border-radius: var(--radius-md);
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    flex-direction: row;
+    align-items: center;
+    margin-top: var(--space-4);
+    display: none;
+}
+
+.feedback-banner--visible {
+    display: flex;
+}
+
+.feedback-banner__text {
+    font-size: var(--font-size-sm);
+    flex-grow: 1;
+    margin-left: var(--space-3);
+}
+
+/* Error banner */
+.feedback-banner--error {
+    background-color: var(--color-error-light);
+    border-width: 1px;
+    border-color: var(--color-error);
+}
+
+.feedback-banner--error .feedback-banner__text {
+    color: var(--color-error);
+}
+
+/* Success banner */
+.feedback-banner--success {
+    background-color: var(--color-success-light);
+    border-width: 1px;
+    border-color: var(--color-success);
+}
+
+.feedback-banner--success .feedback-banner__text {
+    color: var(--color-success);
+}
+
+/* Warning banner */
+.feedback-banner--warning {
+    background-color: var(--color-warning-light);
+    border-width: 1px;
+    border-color: var(--color-warning);
+}
+
+.feedback-banner--warning .feedback-banner__text {
+    color: var(--color-warning);
+}
+
+/* Info banner */
+.feedback-banner--info {
+    background-color: var(--color-info-light);
+    border-width: 1px;
+    border-color: var(--color-info);
+}
+
+.feedback-banner--info .feedback-banner__text {
+    color: var(--color-info);
+}
+
+
+/* ============================================
+   LOADING STATES
+============================================ */
+
+/* Full screen loading overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-bg-overlay);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.loading-overlay--visible {
+    display: flex;
+}
+
+/* Loading card sits above the overlay */
+.loading-card {
+    background-color: var(--color-bg-elevated);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    align-items: center;
+    justify-content: center;
+    border-width: 1px;
+    border-color: var(--color-border-subtle);
+    min-width: 160px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border-width: 3px;
+    border-color: var(--color-border-subtle);
+    border-top-color: var(--color-brand-secondary);
+    margin-bottom: var(--space-4);
+}
+
+.loading-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    -unity-text-align: middle-center;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Inline loading indicator for smaller operations */
+.loading-inline {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+}
+
+.loading-inline .loading-spinner {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 0;
+    margin-right: var(--space-3);
+}
+
+.loading-inline .loading-text {
+    font-size: var(--font-size-sm);
+}
+
+
+/* ============================================
+   NO CONNECTION BANNER
+============================================ */
+
+.no-connection-banner {
+    width: 100%;
+    background-color: #7C2D12;
+    flex-direction: row;
+    align-items: center;
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    display: none;
+}
+
+.no-connection-banner--visible {
+    display: flex;
+}
+
+.no-connection-banner__icon {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+    flex-shrink: 0;
+}
+
+.no-connection-banner__text {
+    font-size: var(--font-size-sm);
+    color: #FED7AA;
+    flex-grow: 1;
+    margin-left: var(--space-3);
+}
+
+.no-connection-banner__retry {
+    background-color: transparent;
+    border-width: 1px;
+    border-color: #FED7AA;
+    border-radius: var(--radius-full);
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    cursor: link;
+    flex-shrink: 0;
+}
+
+.no-connection-banner__retry Label {
+    font-size: var(--font-size-xs);
+    color: #FED7AA;
+    -unity-font-style: bold;
+    letter-spacing: var(--letter-spacing-wider);
+}
+
+.no-connection-banner__retry:hover {
+    background-color: rgba(254, 215, 170, 0.1);
+}
+
+
+/* ============================================
+   BADGE
+============================================ */
+
+.badge {
+    border-radius: var(--radius-full);
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    padding-top: var(--space-1);
+    padding-bottom: var(--space-1);
+    align-items: center;
+    justify-content: center;
+}
+
+.badge Label {
+    font-size: var(--font-size-xs);
+    -unity-font-style: bold;
+    letter-spacing: var(--letter-spacing-wider);
+}
+
+.badge--success {
+    background-color: var(--color-success-light);
+}
+
+.badge--success Label {
+    color: var(--color-success);
+}
+
+.badge--error {
+    background-color: var(--color-error-light);
+}
+
+.badge--error Label {
+    color: var(--color-error);
+}
+
+.badge--info {
+    background-color: var(--color-info-light);
+}
+
+.badge--info Label {
+    color: var(--color-info);
+}
+
+
+/* ============================================
+   AVATAR
+============================================ */
+
+.avatar {
+    border-radius: var(--radius-full);
+    background-color: var(--color-brand-secondary);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.avatar--sm {
+    width: 32px;
+    height: 32px;
+}
+
+.avatar--md {
+    width: 48px;
+    height: 48px;
+}
+
+.avatar--lg {
+    width: 64px;
+    height: 64px;
+}
+
+.avatar__initials {
+    color: var(--color-text-primary);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.avatar--sm .avatar__initials {
+    font-size: var(--font-size-sm);
+}
+
+.avatar--md .avatar__initials {
+    font-size: var(--font-size-md);
+}
+
+.avatar--lg .avatar__initials {
+    font-size: var(--font-size-xl);
+}
+
+
+/* ============================================
+   SCREEN BASE
+============================================ */
+
+/* Every screen inherits from this */
+.screen {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: var(--color-bg-primary);
+    display: none;
+}
+
+.screen--active {
+    display: flex;
+}
+
+/* Screen with scrollable content */
+.screen-scroll {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: var(--color-bg-primary);
+}
+
+/* Auth screens have a centered card layout */
+.screen-auth {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: var(--color-bg-primary);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.screen-auth--active {
+    display: flex;
+}
+
+/* Auth card wraps all auth form content */
+.auth-card {
+    width: 100%;
+    max-width: var(--max-content-width);
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    border-width: 1px;
+    border-color: var(--color-border-subtle);
+    margin-left: var(--space-5);
+    margin-right: var(--space-5);
+}
+
+
+/* ============================================
+   BACK BUTTON ROW
+============================================ */
+
+.back-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: var(--space-6);
+}
+
+.back-button {
+    background-color: transparent;
+    border-width: 0;
+    flex-direction: row;
+    align-items: center;
+    cursor: link;
+    padding: 0;
+    width: auto;
+    height: auto;
+}
+
+.back-button__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: var(--space-2);
+}
+
+.back-button__text {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+}
+
+.back-button:hover .back-button__text {
+    color: var(--color-text-primary);
+}
+
+
+/* ============================================
+   STEP INDICATOR
+   For multi step flows like confirm email
+============================================ */
+
+.step-indicator {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-6);
+}
+
+.step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-border-subtle);
+    margin-left: var(--space-1);
+    margin-right: var(--space-1);
+}
+
+.step-dot--active {
+    width: 24px;
+    background-color: var(--color-brand-secondary);
+}
+
+.step-dot--complete {
+    background-color: var(--color-success);
+}
+
+
+/* ============================================
+   COUNTDOWN TIMER
+   Used in confirm email resend cooldown
+============================================ */
+
+.countdown-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-placeholder);
+    -unity-text-align: middle-center;
+    margin-top: var(--space-3);
+    display: none;
+}
+
+.countdown-text--visible {
+    display: flex;
+}
+
+
+/* ============================================
+   KEYBOARD AVOID
+   Pushes content up when keyboard is open
+============================================ */
+
+.keyboard-avoid {
+    flex-grow: 1;
+    flex-direction: column;
+}

@@ -1,0 +1,177 @@
+@import url("project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&guid=934fe7e1c0c5c4bf4a36002625785e6f&type=3#IbmRosTheme");
+
+/* ============================================
+   CONFIRM EMAIL SCREEN STYLES
+============================================ */
+
+/* Background */
+.confirm-email-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.confirm-email-glow {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: var(--radius-full);
+    background-color: rgba(10, 132, 255, 0.05);
+    top: -100px;
+    left: -100px;
+}
+
+/* Scroll container */
+.confirm-email-scroll {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.confirm-email-scroll > .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-grow: 1;
+}
+
+.confirm-email-scroll > .unity-scroll-view__content-and-vertical-scroll-container
+> .unity-scroll-view__content-container {
+    flex-grow: 1;
+    padding: 0;
+}
+
+/* Content container */
+.confirm-email-content {
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+    min-height: 100%;
+}
+
+/* Email icon section */
+.confirm-email-icon-section {
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-4);
+}
+
+.confirm-email-icon-container {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-full);
+    background-color: rgba(10, 132, 255, 0.12);
+    border-width: 1px;
+    border-color: rgba(10, 132, 255, 0.3);
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-email-icon {
+    font-size: 36px;
+    -unity-text-align: middle-center;
+}
+
+/* Header section */
+.confirm-email-header {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Email address displayed below subtitle */
+.confirm-email-address {
+    font-size: var(--font-size-md);
+    color: var(--color-brand-secondary);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: var(--letter-spacing-tight);
+}
+
+/* Code input section */
+.confirm-email-code-section {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+/* Six digit code boxes row */
+.confirm-email-code-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-3);
+    width: 100%;
+}
+
+/* Individual code box */
+.confirm-email-code-box {
+    width: 44px;
+    height: 54px;
+    background-color: var(--color-bg-input);
+    border-radius: var(--radius-md);
+    border-width: 1.5px;
+    border-color: var(--color-border-default);
+    margin-left: var(--space-1);
+    margin-right: var(--space-1);
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-email-code-box > .unity-base-field__input {
+    background-color: transparent;
+    border-width: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+}
+
+.confirm-email-code-box > .unity-base-field__input > #unity-text-input {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xl);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    background-color: transparent;
+}
+
+/* Code box focused state */
+.confirm-email-code-box--focused {
+    border-color: var(--color-border-active);
+    background-color: var(--color-bg-input-focus);
+}
+
+/* Code box filled state */
+.confirm-email-code-box--filled {
+    border-color: var(--color-brand-secondary);
+    background-color: rgba(10, 132, 255, 0.08);
+}
+
+/* Code box error state */
+.confirm-email-code-box--error {
+    border-color: var(--color-border-error);
+    background-color: var(--color-error-light);
+}
+
+/* Code box success state */
+.confirm-email-code-box--success {
+    border-color: var(--color-border-success);
+    background-color: var(--color-success-light);
+}
+
+/* Resend section */
+.confirm-email-resend-section {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Spam note at bottom */
+.confirm-email-spam-note {
+    width: 100%;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+}

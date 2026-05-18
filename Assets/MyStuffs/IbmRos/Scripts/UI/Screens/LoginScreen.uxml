@@ -1,0 +1,72 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&amp;guid=934fe7e1c0c5c4bf4a36002625785e6f&amp;type=3#IbmRosTheme"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/LoginScreen.uss?fileID=7433441132597879392&amp;guid=e9912bedf3a6c40658e19dc431a09a9b&amp;type=3#LoginScreen"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/SharedComponents.uss?fileID=7433441132597879392&amp;guid=3d127506307fe459a827bfc49b978dd4&amp;type=3#SharedComponents"/>
+    <ui:VisualElement name="LoginScreen" class="login-root">
+        <ui:VisualElement name="LoginBackground"
+                          class="login-background"
+                          picking-mode="Ignore">
+            <ui:VisualElement name="GlowTop"
+                              class="login-glow login-glow--top"
+                              picking-mode="Ignore" />
+            <ui:VisualElement name="GlowBottom"
+                              class="login-glow login-glow--bottom"
+                              picking-mode="Ignore" />
+        </ui:VisualElement>
+        <ui:ScrollView name="LoginScroll" horizontal-scrolling-enabled="false" vertical-scrolling-enabled="true" mouse-wheel-scroll-size="80" class="login-scroll">
+            <ui:VisualElement name="LoginContent" class="login-content">
+                <ui:VisualElement name="LogoSection" class="logo-container">
+                    <ui:VisualElement name="LogoMark" class="logo-mark">
+                        <ui:Label name="LogoInitials" text="IR" class="login-logo-initials"/>
+                    </ui:VisualElement>
+                    <ui:Label name="LogoText" text="IBMROS" class="logo-text"/>
+                    <ui:Label name="LogoTagline" text="VISUALIZE YOUR SPACE" class="logo-tagline"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="AuthCard" class="auth-card">
+                    <ui:VisualElement name="CardHeader" class="login-card-header">
+                        <ui:Label name="WelcomeTitle" text="Welcome back" class="text-h2"/>
+                        <ui:Label name="WelcomeSubtitle" text="Sign in to continue to your account" class="text-body mt-1"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="FeedbackBanner" class="feedback-banner">
+                        <ui:Label name="FeedbackIcon" text="!" class="feedback-banner__icon-text"/>
+                        <ui:Label name="FeedbackText" text="" class="feedback-banner__text"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="FormSection" class="login-form mt-6">
+                        <ui:VisualElement name="EmailWrapper" class="input-wrapper">
+                            <ui:Label name="EmailLabel" text="EMAIL ADDRESS" class="input-label"/>
+                            <ui:TextField name="EmailInput" placeholder-text="you@example.com" keyboard-type="EmailAddress" class="input-field"/>
+                            <ui:Label name="EmailError" text="" class="input-error-text"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="PasswordWrapper" class="input-wrapper mt-2">
+                            <ui:VisualElement name="PasswordLabelRow" class="row-between">
+                                <ui:Label name="PasswordLabel" text="PASSWORD" class="input-label"/>
+                                <ui:Button name="ForgotPasswordButton" text="Forgot password?" class="btn-ghost login-forgot-btn"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="PasswordInputRow" class="input-password-row">
+                                <ui:TextField name="PasswordInput" placeholder-text="Enter your password" password="true" class="input-field"/>
+                                <ui:Button name="PasswordToggle" text="👁" class="input-password-toggle"/>
+                            </ui:VisualElement>
+                            <ui:Label name="PasswordError" text="" class="input-error-text"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:Button name="LoginButton" text="SIGN IN" class="btn btn-primary mt-6"/>
+                    <ui:VisualElement name="DividerRow" class="divider-with-text mt-6">
+                        <ui:VisualElement name="DividerLeft" class="divider-line"/>
+                        <ui:Label name="DividerLabel" text="OR" class="divider-label"/>
+                        <ui:VisualElement name="DividerRight" class="divider-line"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SignUpRow" class="login-signup-row mt-4">
+                        <ui:Label name="SignUpPrompt" text="Don&apos;t have an account?" class="text-body"/>
+                        <ui:Button name="GoToSignUpButton" text="Create one" class="btn-ghost"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement name="LoadingOverlay" class="loading-overlay">
+            <ui:VisualElement name="LoadingCard" class="loading-card">
+                <ui:VisualElement name="LoadingSpinner" class="loading-spinner"/>
+                <ui:Label name="LoadingText" text="Signing in..." class="loading-text"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

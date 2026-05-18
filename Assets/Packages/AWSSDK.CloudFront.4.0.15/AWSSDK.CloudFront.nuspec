@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>AWSSDK.CloudFront</id>
+    <version>4.0.15</version>
+    <title>AWSSDK - CloudFront</title>
+    <authors>Amazon Web Services</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <icon>images\AWSLogo.png</icon>
+    <projectUrl>https://github.com/aws/aws-sdk-net/</projectUrl>
+    <description>Amazon CloudFront is a content delivery web service. It integrates with other Amazon Web Services products to give developers and businesses an easy way to distribute content to end users with low latency, high data transfer speeds, and no minimum usage commitments.</description>
+    <language>en-US</language>
+    <tags>AWS Amazon cloud CloudFront aws-sdk-v4</tags>
+    <dependencies>
+      <dependency id="AWSSDK.Core" version="[4.0.6.1, 5.0.0)" />
+    </dependencies>
+  </metadata>
+</package>

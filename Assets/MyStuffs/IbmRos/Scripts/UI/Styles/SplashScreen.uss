@@ -1,0 +1,96 @@
+@import url("project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&guid=934fe7e1c0c5c4bf4a36002625785e6f&type=3#IbmRosTheme");
+
+.splash-root {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-primary);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.splash-glow {
+    position: absolute;
+    border-radius: var(--radius-full);
+}
+
+.splash-glow--1 {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(10, 132, 255, 0.08);
+    top: -100px;
+    right: -100px;
+}
+
+.splash-glow--2 {
+    width: 350px;
+    height: 350px;
+    background-color: rgba(0, 198, 255, 0.06);
+    bottom: -80px;
+    left: -80px;
+}
+
+.splash-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.splash-logo-mark {
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    background-color: var(--color-brand-secondary);
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-6);
+}
+
+.splash-logo-initials {
+    font-size: 32px;
+    color: var(--color-text-primary);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.splash-app-name {
+    font-size: var(--font-size-4xl);
+    color: var(--color-text-primary);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: 4px;
+    margin-bottom: var(--space-3);
+}
+
+.splash-tagline {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    -unity-text-align: middle-center;
+    letter-spacing: var(--letter-spacing-widest);
+}
+
+.splash-loading-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: var(--safe-area-bottom);
+    margin-bottom: var(--space-8);
+}
+
+.splash-spinner {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+    border-width: 2px;
+    border-color: var(--color-border-subtle);
+    border-top-color: var(--color-brand-secondary);
+    margin-right: var(--space-3);
+}
+
+.splash-loading-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-placeholder);
+    letter-spacing: var(--letter-spacing-wide);
+}

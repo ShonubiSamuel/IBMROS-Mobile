@@ -1,0 +1,241 @@
+@import url("project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&guid=934fe7e1c0c5c4bf4a36002625785e6f&type=3#IbmRosTheme");
+
+/* ============================================
+   DELETE ACCOUNT SCREEN STYLES
+============================================ */
+
+/* Background */
+.delete-account-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.delete-account-glow {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: var(--radius-full);
+    background-color: rgba(239, 68, 68, 0.04);
+    top: -100px;
+    right: -100px;
+}
+
+/* Scroll container */
+.delete-account-scroll {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.delete-account-scroll > .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-grow: 1;
+}
+
+.delete-account-scroll > .unity-scroll-view__content-and-vertical-scroll-container
+> .unity-scroll-view__content-container {
+    flex-grow: 1;
+    padding: 0;
+}
+
+/* Content container */
+.delete-account-content {
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+    min-height: 100%;
+}
+
+/* Icon section */
+.delete-account-icon-section {
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-4);
+}
+
+.delete-account-icon-container {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-full);
+    background-color: rgba(239, 68, 68, 0.1);
+    border-width: 1px;
+    border-color: rgba(239, 68, 68, 0.25);
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-account-icon {
+    font-size: 36px;
+    -unity-text-align: middle-center;
+}
+
+/* Header section */
+.delete-account-header {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+}
+
+.delete-account-subtitle {
+    font-size: var(--font-size-md);
+    color: var(--color-error);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+/* Consequences card */
+.delete-account-consequences-card {
+    width: 100%;
+    background-color: var(--color-error-light);
+    border-radius: var(--radius-xl);
+    border-width: 1px;
+    border-color: rgba(239, 68, 68, 0.2);
+    padding: var(--space-5);
+}
+
+.delete-account-consequences-title {
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    -unity-font-style: bold;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.delete-account-consequence-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.delete-account-consequence-icon {
+    font-size: var(--font-size-xs);
+    color: var(--color-error);
+    width: 16px;
+    -unity-text-align: middle-center;
+    margin-right: var(--space-3);
+    flex-shrink: 0;
+}
+
+.delete-account-consequence-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    flex-grow: 1;
+    white-space: normal;
+}
+
+/* Form section */
+.delete-account-form {
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Account display row */
+.delete-account-account-row {
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--color-bg-input);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    border-width: 1px;
+    border-color: var(--color-border-subtle);
+}
+
+.delete-account-account-info {
+    flex-direction: column;
+    margin-left: var(--space-3);
+    flex-grow: 1;
+}
+
+.delete-account-account-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    letter-spacing: var(--letter-spacing-wide);
+    -unity-font-style: bold;
+}
+
+.delete-account-account-email {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    margin-top: 2px;
+    -unity-font-style: bold;
+}
+
+/* Confirmation checkbox */
+.delete-account-checkbox-row {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.delete-account-checkbox {
+    width: 22px;
+    height: 22px;
+    background-color: var(--color-bg-input);
+    border-radius: var(--radius-sm);
+    border-width: 1.5px;
+    border-color: var(--color-border-default);
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    padding: 0;
+}
+
+.delete-account-checkbox:hover {
+    border-color: var(--color-error);
+}
+
+.delete-account-checkbox--checked {
+    background-color: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.delete-account-checkbox-icon {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.delete-account-checkbox-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    flex-grow: 1;
+    margin-left: var(--space-3);
+    white-space: normal;
+}
+
+/* Help note */
+.delete-account-help-note {
+    width: 100%;
+    align-items: center;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.delete-account-help-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+.delete-account-support-btn {
+    width: auto;
+    height: auto;
+    padding: 0;
+}
+
+.delete-account-support-btn Label {
+    font-size: var(--font-size-sm);
+    color: var(--color-brand-secondary);
+    -unity-font-style: bold;
+}

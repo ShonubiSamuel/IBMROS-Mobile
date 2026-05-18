@@ -1,0 +1,230 @@
+@import url("project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&guid=934fe7e1c0c5c4bf4a36002625785e6f&type=3#IbmRosTheme");
+
+/* ============================================
+   SIGN UP SCREEN STYLES
+============================================ */
+
+/* Background */
+.signup-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+/* Decorative glow blobs */
+.signup-glow {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: var(--radius-full);
+}
+
+.signup-glow--top {
+    background-color: rgba(0, 198, 255, 0.07);
+    top: -80px;
+    left: -60px;
+}
+
+.signup-glow--bottom {
+    background-color: rgba(10, 132, 255, 0.06);
+    bottom: -100px;
+    right: -80px;
+}
+
+/* Scroll container */
+.signup-scroll {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.signup-scroll > .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-grow: 1;
+}
+
+.signup-scroll > .unity-scroll-view__content-and-vertical-scroll-container
+> .unity-scroll-view__content-container {
+    flex-grow: 1;
+    padding: 0;
+}
+
+/* Content container */
+.signup-content {
+    flex-grow: 1;
+    flex-direction: column;
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+    min-height: 100%;
+}
+
+/* Back button icon text */
+.back-button__icon-text {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    margin-right: var(--space-2);
+}
+
+/* Header section */
+.signup-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: var(--space-4);
+}
+
+/* Logo mark small version */
+.signup-logo-mark {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-brand-secondary);
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-logo-initials {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-primary);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+/* Form section */
+.signup-form {
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Password strength bar */
+.signup-strength-section {
+    flex-direction: column;
+    width: 100%;
+}
+
+.signup-strength-bar {
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-border-subtle);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.signup-strength-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: var(--radius-full);
+    background-color: var(--color-border-subtle);
+    transition-duration: var(--transition-normal);
+}
+
+.signup-strength-fill--weak {
+    width: 25%;
+    background-color: var(--color-error);
+}
+
+.signup-strength-fill--fair {
+    width: 50%;
+    background-color: var(--color-warning);
+}
+
+.signup-strength-fill--good {
+    width: 75%;
+    background-color: var(--color-info);
+}
+
+.signup-strength-fill--strong {
+    width: 100%;
+    background-color: var(--color-success);
+}
+
+.signup-strength-label {
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.signup-strength-label--weak {
+    color: var(--color-error);
+}
+
+.signup-strength-label--fair {
+    color: var(--color-warning);
+}
+
+.signup-strength-label--good {
+    color: var(--color-info);
+}
+
+.signup-strength-label--strong {
+    color: var(--color-success);
+}
+
+/* Password requirements list */
+.signup-requirements {
+    flex-direction: column;
+    padding-left: var(--space-2);
+}
+
+.signup-req-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: var(--space-1);
+}
+
+.signup-req-icon {
+    font-size: 6px;
+    color: var(--color-text-placeholder);
+    margin-right: var(--space-2);
+    width: 12px;
+}
+
+.signup-req-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-placeholder);
+}
+
+/* Requirement met state */
+.signup-req-icon--met {
+    color: var(--color-success);
+}
+
+.signup-req-text--met {
+    color: var(--color-success);
+}
+
+/* Terms row */
+.signup-terms-row {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.signup-terms-btn {
+    height: auto;
+    padding: 0;
+    width: auto;
+    margin-left: 2px;
+}
+
+.signup-terms-btn Label {
+    font-size: var(--font-size-sm);
+    color: var(--color-brand-secondary);
+    -unity-font-style: bold;
+}
+
+/* Login redirect row */
+.signup-login-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-login-row .btn-ghost Label {
+    font-size: var(--font-size-md);
+    color: var(--color-brand-secondary);
+    -unity-font-style: bold;
+}

@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&amp;guid=934fe7e1c0c5c4bf4a36002625785e6f&amp;type=3#IbmRosTheme"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/SharedComponents.uss?fileID=7433441132597879392&amp;guid=3d127506307fe459a827bfc49b978dd4&amp;type=3#SharedComponents"/>
+    <ui:VisualElement name="AppRoot" class="app-root">
+        <ui:VisualElement name="SplashScreenContainer" class="screen screen--active" />
+        <ui:VisualElement name="LoginScreenContainer" class="screen-auth"/>
+        <ui:VisualElement name="SignUpScreenContainer" class="screen-auth"/>
+        <ui:VisualElement name="ConfirmEmailScreenContainer" class="screen-auth"/>
+        <ui:VisualElement name="ForgotPasswordScreenContainer" class="screen-auth"/>
+        <ui:VisualElement name="ConfirmPasswordScreenContainer" class="screen-auth"/>
+        <ui:VisualElement name="MainAppScreenContainer" class="screen"/>
+        <ui:VisualElement name="DeleteAccountScreenContainer" class="screen-auth"/>
+        <ui:VisualElement name="GlobalLoadingOverlay" class="loading-overlay">
+            <ui:VisualElement name="GlobalLoadingCard" class="loading-card">
+                <ui:VisualElement name="GlobalLoadingSpinner" class="loading-spinner"/>
+                <ui:Label name="GlobalLoadingText" text="Please wait..." class="loading-text"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="GlobalNoConnectionBanner" class="no-connection-banner">
+            <ui:Label name="GlobalNoConnectionIcon" text="⚠" class="no-connection-banner__icon"/>
+            <ui:Label name="GlobalNoConnectionText" text="No internet connection" class="no-connection-banner__text"/>
+            <ui:Button name="GlobalRetryButton" class="no-connection-banner__retry">
+                <ui:Label text="RETRY"/>
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

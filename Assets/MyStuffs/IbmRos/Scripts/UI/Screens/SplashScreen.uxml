@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss?fileID=7433441132597879392&amp;guid=934fe7e1c0c5c4bf4a36002625785e6f&amp;type=3#IbmRosTheme"/>
+    <Style src="project://database/Assets/MyStuffs/IbmRos/Scripts/UI/Styles/SplashScreen.uss?fileID=7433441132597879392&amp;guid=a625fe389faf4476aa11b49379def590&amp;type=3#SplashScreen"/>
+    <ui:VisualElement name="SplashScreen" picking-mode="Ignore" class="splash-root">
+        <ui:VisualElement name="SplashGlow1" picking-mode="Ignore" class="splash-glow splash-glow--1"/>
+        <ui:VisualElement name="SplashGlow2" picking-mode="Ignore" class="splash-glow splash-glow--2"/>
+        <ui:VisualElement name="SplashContent" picking-mode="Ignore" class="splash-content">
+            <ui:VisualElement name="SplashLogoMark" class="splash-logo-mark">
+                <ui:Label name="SplashLogoInitials" text="IR" class="splash-logo-initials"/>
+            </ui:VisualElement>
+            <ui:Label name="SplashAppName" text="IBMROS" class="splash-app-name"/>
+            <ui:Label name="SplashTagline" text="VISUALIZE YOUR SPACE" class="splash-tagline"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="SplashLoadingRow" picking-mode="Ignore" class="splash-loading-row">
+            <ui:VisualElement name="SplashSpinner" class="splash-spinner"/>
+            <ui:Label name="SplashLoadingText" text="Loading..." class="splash-loading-text"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

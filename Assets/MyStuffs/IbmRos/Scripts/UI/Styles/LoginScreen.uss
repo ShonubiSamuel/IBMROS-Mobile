@@ -1,0 +1,120 @@
+@import url("project://database/Assets/IbmRos/Scripts/UI/Styles/IbmRosTheme.uss");
+/* ============================================
+   LOGIN SCREEN STYLES
+============================================ */
+
+/* Background */
+.login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+/* Decorative glow blobs in the background */
+.login-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: var(--radius-full);
+}
+
+.login-glow--top {
+    background-color: rgba(10, 132, 255, 0.08);
+    top: -100px;
+    right: -80px;
+}
+
+.login-glow--bottom {
+    background-color: rgba(0, 198, 255, 0.06);
+    bottom: -120px;
+    left: -100px;
+}
+
+/* Scroll container fills full screen */
+.login-scroll {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.login-scroll > .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-grow: 1;
+}
+
+.login-scroll > .unity-scroll-view__content-and-vertical-scroll-container
+> .unity-scroll-view__content-container {
+    flex-grow: 1;
+    padding: 0;
+}
+
+/* Content centers everything vertically */
+.login-content {
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+    min-height: 100%;
+}
+
+/* Logo initials styling */
+.login-logo-initials {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Card header spacing */
+.login-card-header {
+    flex-direction: column;
+    margin-bottom: var(--space-2);
+}
+
+/* Form section */
+.login-form {
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Forgot password sits inline with label */
+.login-forgot-btn {
+    height: auto;
+    padding: 0;
+    width: auto;
+}
+
+.login-forgot-btn Label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-link);
+}
+
+/* Sign up row at the bottom of the card */
+.login-signup-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-signup-row .btn-ghost {
+    margin-left: var(--space-1);
+}
+
+.login-signup-row .btn-ghost Label {
+    font-size: var(--font-size-md);
+    color: var(--color-brand-secondary);
+    -unity-font-style: bold;
+}
+
+/* Auth card max width on tablet */
+.auth-card {
+    width: 100%;
+    max-width: var(--max-content-width);
+}
