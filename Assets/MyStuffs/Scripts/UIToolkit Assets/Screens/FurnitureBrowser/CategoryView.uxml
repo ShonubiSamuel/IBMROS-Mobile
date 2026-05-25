@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements"
+         xmlns:uie="UnityEditor.UIElements"
+         xsi="http://www.w3.org/2001/XMLSchema-instance"
+         engine="UnityEngine.UIElements"
+         noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+
+    <ui:VisualElement name="CategoryViewRoot" class="browser-view">
+
+        <ui:ScrollView name="CategoryScrollView"
+                       class="browser-scroll"
+                       horizontal-scroller-visibility="Hidden"
+                       vertical-scroller-visibility="Auto"
+                       mode="Vertical">
+
+            <ui:VisualElement name="CategoryGrid" class="browser-grid" />
+
+        </ui:ScrollView>
+
+    </ui:VisualElement>
+
+</ui:UXML>

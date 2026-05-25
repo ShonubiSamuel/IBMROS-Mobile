@@ -97,6 +97,7 @@ public class FurnitureModelLoader : MonoBehaviour
             return false;
         }
     }
+    
     // Loads a GLB file from local path using GLTFast
     private async Task<GameObject> LoadFromFile(string localPath, string fileName)
     {
@@ -167,4 +168,5 @@ public class FurnitureModelLoader : MonoBehaviour
     {
         return File.Exists(Path.Combine(CachePath, fileName));
     }
+    
 }

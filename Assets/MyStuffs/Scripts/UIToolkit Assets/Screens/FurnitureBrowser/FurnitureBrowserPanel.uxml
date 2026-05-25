@@ -1,0 +1,59 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/MyStuffs/Scripts/UIToolkit%20Assets/Styles/FurnitureBrowser/FurnitureBrowser.uss?fileID=7433441132597879392&amp;guid=42e4ca2abc184459e8d1366178e5099f&amp;type=3#FurnitureBrowser"/>
+
+    <!--
+        FurnitureBrowserRoot fills the entire UIDocument root.
+        Without this wrapper, the TemplateContainer produced by
+        CloneTree() has zero height and the absolute-positioned
+        backdrop + panel are invisible.
+    -->
+    <ui:VisualElement name="FurnitureBrowserRoot" class="furniture-browser-root">
+        <ui:VisualElement name="FurnitureBrowserBackdrop" class="furniture-browser-backdrop"/>
+        <ui:VisualElement name="FurnitureBrowserPanel" class="furniture-browser">
+            <ui:VisualElement name="BrowserHeader" class="furniture-browser__header">
+                <ui:Button name="BrowserBackButton" text="←" class="furniture-browser__back-btn"/>
+                <ui:Label name="BrowserHeaderTitle" text="By room type" class="furniture-browser__title"/>
+                <ui:VisualElement class="furniture-browser__header-actions">
+                    <ui:Button name="BrowserSearchButton" text="🔍" class="furniture-browser__icon-btn"/>
+                    <ui:Button name="BrowserCloseButton" text="✕" class="furniture-browser__icon-btn"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="BrowserContent" class="furniture-browser__content">
+                <ui:VisualElement name="RoomTypeView" class="furniture-browser__view">
+                    <ui:VisualElement name="RoomTypeViewRoot" class="browser-view">
+                        <ui:VisualElement name="RoomTypeTabRow" class="browser-tab-row">
+                            <ui:Button name="TabRoom" text="Room" class="browser-tab browser-tab--active"/>
+                            <ui:Button name="TabOtherRooms" text="Other Rooms" class="browser-tab"/>
+                        </ui:VisualElement>
+                        <ui:ScrollView name="RoomTypeScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" mode="Vertical" class="browser-scroll">
+                            <ui:VisualElement name="RoomTypeGrid" class="browser-grid"/>
+                        </ui:ScrollView>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="CategoryView" class="furniture-browser__view">
+                    <ui:VisualElement name="CategoryViewRoot" class="browser-view">
+                        <ui:ScrollView name="CategoryScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" mode="Vertical" class="browser-scroll">
+                            <ui:VisualElement name="CategoryGrid" class="browser-grid"/>
+                        </ui:ScrollView>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="SubcategoryView" class="furniture-browser__view">
+                    <ui:VisualElement name="SubcategoryViewRoot" class="browser-view">
+                        <ui:ScrollView name="SubcategoryScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" mode="Vertical" class="browser-scroll">
+                            <ui:VisualElement name="SubcategoryGrid" class="browser-grid"/>
+                        </ui:ScrollView>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ProductListView" class="furniture-browser__view">
+                    <ui:VisualElement name="ProductListViewRoot" class="browser-view">
+                        <ui:VisualElement name="FilterRow" class="product-list__filter-row"/>
+                        <ui:VisualElement name="ColorSwatchRow" class="product-list__swatch-row"/>
+                        <ui:ScrollView name="ProductScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" mode="Vertical" class="browser-scroll">
+                            <ui:VisualElement name="ProductList" class="product-list__list"/>
+                        </ui:ScrollView>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

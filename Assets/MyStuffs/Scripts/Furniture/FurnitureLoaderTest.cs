@@ -12,8 +12,12 @@ public class FurnitureLoaderTest : MonoBehaviour
         if (model != null)
         {
             Debug.Log("[FurnitureLoaderTest] Model loaded successfully.");
-            model.transform.position = new Vector3(0, 0, 2);
+            model.transform.position = new Vector3(0, 0.414f, 0);
             model.transform.localScale = Vector3.one;
+            model.AddComponent<BoxCollider>();
+            model.AddComponent<FurnitureItem>();
+            model.gameObject.layer = LayerMask.NameToLayer("Interactable");
+
         }
         else
         {

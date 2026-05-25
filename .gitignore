@@ -73,3 +73,5 @@ ExportedObj/
 # macOS
 # =========================
 .DS_Store
+
+UIElementsSchema/
