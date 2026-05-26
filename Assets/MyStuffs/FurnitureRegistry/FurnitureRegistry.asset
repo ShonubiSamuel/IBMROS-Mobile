@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efbe607d8983489f9e7d46a1195d3f00, type: 3}
+  m_Name: FurnitureRegistry
+  m_EditorClassIdentifier: Assembly-CSharp::FurnitureRegistry
+  entries:
+  - itemKey: IKEA BRIMNES
+    glbFileName: chair_glb.glb
+    prefabFallback: {fileID: -6689036041284674117, guid: 08dd91b1fa43745cdbaeb1645608f123, type: 3}
+    spawnScale: {x: 0, y: 0, z: 0}
+    realWorldSizeMeters: {x: 1, y: 1, z: 1}
+    category: 

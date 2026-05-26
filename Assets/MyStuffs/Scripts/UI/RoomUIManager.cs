@@ -10,9 +10,22 @@ public class RoomUIManager : MonoBehaviour
     [Header("Controllers")]
     [SerializeField] private ToolbarController toolbarController;
     [SerializeField] private BottomBarController bottomBarController;
-    [SerializeField] private FurnitureBrowserController furnitureBrowser;
+    [SerializeField] private FurniturePanelController furniturePanelController;
+    [SerializeField] private ItemDetailSheetController itemDetailSheetController;
+    
+    [Header("Spawning")]
+    [SerializeField] private FurnitureSpawnManager furnitureSpawnManager;
+
+    [Header("Scene Objects to Hide")]
+    [SerializeField] private GameObject joystickObject;
 
     private VisualElement _root;
+    private VisualElement _topBar;
+    private VisualElement _bottomBar;
+    private VisualElement _roomRoot;
+
+    private bool _ignoreNextRootClick = false;
+    private bool _addedToRoom        = false;
 
     void OnEnable()
     {
@@ -22,29 +35,44 @@ public class RoomUIManager : MonoBehaviour
             return;
         }
 
-        _root = uiDocument.rootVisualElement;
+        _root      = uiDocument.rootVisualElement;
+        _topBar    = _root.Q<VisualElement>("TopBar");
+        _bottomBar = _root.Q<VisualElement>("BottomBar");
+        _roomRoot  = _root.Q<VisualElement>("Root");
+
+        _roomRoot?.RegisterCallback<PointerDownEvent>(OnRootPointerDown);
 
         toolbarController?.Initialize(_root);
         bottomBarController?.Initialize(_root);
+        furniturePanelController?.Initialize(_root);
+        itemDetailSheetController?.Initialize(_root);
 
         if (toolbarController != null)
         {
-            toolbarController.OnCloseClicked     += OnCloseClicked;
+            toolbarController.OnCloseClicked      += OnCloseClicked;
             toolbarController.OnScreenshotClicked += OnScreenshotClicked;
         }
 
         if (bottomBarController != null)
             bottomBarController.OnAddFurnitureClicked += OnAddFurnitureClicked;
 
-        if (furnitureBrowser != null)
+        if (furniturePanelController != null)
         {
-            furnitureBrowser.OnProductSelected += OnProductSelected;
-            furnitureBrowser.OnClosed          += OnFurnitureBrowserClosed;
+            furniturePanelController.OnPanelClosed  += OnFurniturePanelClosed;
+            furniturePanelController.OnItemSelected += OnItemSelected;
+        }
+
+        if (itemDetailSheetController != null)
+        {
+            itemDetailSheetController.OnSheetClosed     += OnItemDetailClosed;
+            itemDetailSheetController.OnAddToRoomClicked += OnAddToRoomHandler;
         }
     }
 
     void OnDisable()
     {
+        _roomRoot?.UnregisterCallback<PointerDownEvent>(OnRootPointerDown);
+
         toolbarController?.Cleanup();
 
         if (toolbarController != null)
@@ -56,15 +84,51 @@ public class RoomUIManager : MonoBehaviour
         if (bottomBarController != null)
             bottomBarController.OnAddFurnitureClicked -= OnAddFurnitureClicked;
 
-        if (furnitureBrowser != null)
+        if (furniturePanelController != null)
         {
-            furnitureBrowser.OnProductSelected -= OnProductSelected;
-            furnitureBrowser.OnClosed          -= OnFurnitureBrowserClosed;
+            furniturePanelController.OnPanelClosed  -= OnFurniturePanelClosed;
+            furniturePanelController.OnItemSelected -= OnItemSelected;
+        }
+
+        if (itemDetailSheetController != null)
+        {
+            itemDetailSheetController.OnSheetClosed     -= OnItemDetailClosed;
+            itemDetailSheetController.OnAddToRoomClicked -= OnAddToRoomHandler;
         }
     }
 
     // ---------------------------------------------------------------
-    // TOOLBAR EVENTS
+    // ROOT POINTER DOWN
+    // ---------------------------------------------------------------
+
+    private void OnRootPointerDown(PointerDownEvent evt)
+    {
+        if (_ignoreNextRootClick)
+        {
+            _ignoreNextRootClick = false;
+            return;
+        }
+
+        if (furniturePanelController == null || !furniturePanelController.IsOpen)
+            return;
+
+        if (itemDetailSheetController != null && itemDetailSheetController.IsOpen)
+            return;
+
+        var panel = _root.Q<VisualElement>("FurniturePanel");
+        if (panel != null)
+        {
+            Vector2 localPos = panel.WorldToLocal(evt.position);
+            if (panel.ContainsPoint(localPos))
+                return;
+        }
+
+        Debug.Log("[RoomUIManager] Outside tap — closing panel.");
+        furniturePanelController.Close();
+    }
+
+    // ---------------------------------------------------------------
+    // TOOLBAR
     // ---------------------------------------------------------------
 
     private void OnCloseClicked()
@@ -81,42 +145,80 @@ public class RoomUIManager : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
-    // BOTTOM BAR EVENTS
+    // BOTTOM BAR
     // ---------------------------------------------------------------
 
     private void OnAddFurnitureClicked()
     {
         Debug.Log("[RoomUIManager] Add furniture tapped.");
+        _ignoreNextRootClick = true;
+        SetRoomUIVisible(false);
+        furniturePanelController?.Open();
+    }
 
-        if (furnitureBrowser == null)
-            return;
+    // ---------------------------------------------------------------
+    // PANEL CALLBACKS
+    // ---------------------------------------------------------------
 
-        // Hide the bottom bar first
-        bottomBarController?.SetVisible(false);
+    private void OnFurniturePanelClosed()
+    {
+        Debug.Log("[RoomUIManager] Panel closed — restoring UI.");
+        SetRoomUIVisible(true);
+    }
 
-        // Try to open the browser — if it fails (not initialized yet),
-        // immediately restore the bottom bar so the user isn't stuck
-        bool opened = furnitureBrowser.Open();
+    private void OnItemSelected(string itemData)
+    {
+        var parts = itemData.Split('|');
+        if (parts.Length < 4) return;
 
-        if (!opened)
+        string emoji      = parts[0];
+        string brand      = parts[1];
+        string name       = parts[2];
+        string dimensions = parts[3];
+
+        furniturePanelController?.HideWithoutReset();
+        itemDetailSheetController?.Open(emoji, brand, name, dimensions);
+    }
+
+    // ---------------------------------------------------------------
+    // ITEM DETAIL CALLBACKS
+    // ---------------------------------------------------------------
+
+    private void OnAddToRoomHandler(string itemKey)
+    {
+        _addedToRoom = true;
+        Debug.Log($"[RoomUIManager] Add to Room: {itemKey}");
+        furnitureSpawnManager?.SpawnItem(itemKey);
+    }
+
+    private void OnItemDetailClosed()
+    {
+        if (_addedToRoom)
         {
-            Debug.LogWarning("[RoomUIManager] Furniture browser could not open — restoring bottom bar.");
-            bottomBarController?.SetVisible(true);
+            // User placed furniture — restore main UI, do NOT reopen panel
+            _addedToRoom = false;
+            SetRoomUIVisible(true);
+            return;
         }
+
+        // User dismissed sheet via back/close — reopen panel where they left off
+        _ignoreNextRootClick = true;
+        furniturePanelController?.Open();
     }
 
     // ---------------------------------------------------------------
-    // FURNITURE BROWSER EVENTS
+    // VISIBILITY
     // ---------------------------------------------------------------
 
-    private void OnFurnitureBrowserClosed()
+    private void SetRoomUIVisible(bool visible)
     {
-        // Restore the bottom bar when the browser fully closes
-        bottomBarController?.SetVisible(true);
-    }
+        if (_topBar != null)
+            _topBar.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
 
-    private void OnProductSelected(ProductModel product)
-    {
-        Debug.Log($"[RoomUIManager] Product selected: {product.Brand} {product.Name} — {product.ModelFileName}");
+        if (_bottomBar != null)
+            _bottomBar.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+
+        if (joystickObject != null)
+            joystickObject.SetActive(visible);
     }
 }

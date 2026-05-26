@@ -26,5 +26,76 @@
                 <ui:Label text="Add Furniture" class="bottom-bar__label"/>
             </ui:Button>
         </ui:VisualElement>
+        <ui:VisualElement name="FurniturePanel" class="furniture-panel">
+            <ui:VisualElement name="FurniturePanelHeader" class="furniture-panel__header">
+                <ui:Button name="FurniturePanelBackButton" class="furniture-panel__back-btn">
+                    <ui:Label text="‹" class="furniture-panel__back-icon"/>
+                </ui:Button>
+                <ui:Label name="FurniturePanelTitle" text="Room" class="furniture-panel__title"/>
+                <ui:Button name="FurniturePanelSearchButton" class="furniture-panel__search-btn">
+                    <ui:Label text="🔍" class="furniture-panel__search-icon"/>
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement name="FurniturePanelTabs" class="furniture-panel__tabs">
+                <ui:Button name="TabRoom" class="furniture-tab furniture-tab--active">
+                    <ui:Label text="Room" class="furniture-tab__label"/>
+                </ui:Button>
+                <ui:Button name="TabOtherRooms" class="furniture-tab">
+                    <ui:Label text="Other Rooms" class="furniture-tab__label"/>
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement name="FurniturePanelBody" class="furniture-panel__body">
+                <ui:ScrollView name="FurniturePanelScroll"
+                               vertical-scroller-visibility="Hidden"
+                               horizontal-scroller-visibility="Hidden"
+                               class="furniture-panel__scroll">
+                    <ui:VisualElement name="FurnitureCategoryGrid" class="furniture-category-grid"/>
+                </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="ItemDetailOverlay" class="item-detail-overlay" style="display: none;">
+    <ui:VisualElement name="ItemDetailSheet" class="item-detail-sheet">
+        <ui:VisualElement name="ItemDetailHandle" class="item-detail-handle"/>
+        <ui:VisualElement name="ItemDetailHeader" class="item-detail-header">
+            <ui:Button name="ItemDetailBackButton" class="item-detail-nav-btn">
+                <ui:Label text="‹" class="item-detail-nav-icon"/>
+            </ui:Button>
+            <ui:Button name="ItemDetailCloseButton" class="item-detail-nav-btn">
+                <ui:Label text="✕" class="item-detail-close-icon"/>
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:ScrollView name="ItemDetailScroll"
+                       vertical-scroller-visibility="Hidden"
+                       horizontal-scroller-visibility="Hidden"
+                       class="item-detail-scroll">
+            <ui:VisualElement name="ItemDetailImageArea" class="item-detail-image-area">
+                <ui:Label name="ItemDetailEmoji" text="🛏️" class="item-detail-emoji"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="ItemDetailContent" class="item-detail-content">
+                <ui:VisualElement name="ItemDetailTitleRow" class="item-detail-title-row">
+                    <ui:VisualElement class="item-detail-title-col">
+                        <ui:Label name="ItemDetailBrand" text="IKEA" class="item-detail-brand"/>
+                        <ui:Label name="ItemDetailName" text="BRIMNES" class="item-detail-name"/>
+                    </ui:VisualElement>
+                    <ui:Button name="ItemDetailFavBtn" class="item-detail-fav-btn">
+                        <ui:Label name="ItemDetailFavIcon" text="☆" class="item-detail-fav-icon"/>
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:Label name="ItemDetailDimensions" text="90 × 200 cm" class="item-detail-dimensions"/>
+                <ui:VisualElement name="ItemDetailDivider" class="item-detail-divider"/>
+                <ui:Label text="Color" class="item-detail-section-title"/>
+                <ui:VisualElement name="ItemDetailColorRow" class="item-detail-color-row"/>
+                <ui:VisualElement name="ItemDetailDivider2" class="item-detail-divider"/>
+                <ui:Label text="About" class="item-detail-section-title"/>
+                <ui:Label name="ItemDetailDescription" text="" class="item-detail-description"/>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement name="ItemDetailFooter" class="item-detail-footer">
+            <ui:Button name="ItemDetailAddButton" class="item-detail-add-btn">
+                <ui:Label text="Add to Room" class="item-detail-add-label"/>
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

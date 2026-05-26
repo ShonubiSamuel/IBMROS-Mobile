@@ -1,63 +1,82 @@
-using UnityEngine;
-using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class FurnitureRegistry : MonoBehaviour
+/// <summary>
+/// ScriptableObject catalog mapping UI item keys to GLB filenames.
+/// Also tracks all placed FurnitureItem instances at runtime.
+/// </summary>
+[CreateAssetMenu(fileName = "FurnitureRegistry", 
+                 menuName  = "IBMROS/Furniture Registry")]
+public class FurnitureRegistry : ScriptableObject
 {
-    public static FurnitureRegistry Instance { get; private set; }
+    // ---------------------------------------------------------------
+    // CATALOG ENTRY
+    // ---------------------------------------------------------------
 
-    public event Action<FurnitureItem> OnItemRegistered;
-    public event Action<FurnitureItem> OnItemUnregistered;
-
-    private List<FurnitureItem> _placedItems = new List<FurnitureItem>();
-
-    public IReadOnlyList<FurnitureItem> PlacedItems => _placedItems;
-    public int Count => _placedItems.Count;
-
-    void Awake()
+    [System.Serializable]
+    public class CatalogEntry
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        [Tooltip("Must match exactly what FurniturePanelController sends e.g. 'IKEA BRIMNES'")]
+        public string itemKey;
 
-        Instance = this;
+        [Tooltip("GLB filename stored on CloudFront e.g. 'ikea_brimnes_bed.glb'")]
+        public string glbFileName;
+
+        [Tooltip("Optional prefab fallback if GLB is not available")]
+        public GameObject prefabFallback;
+
+        public Vector3 spawnScale = Vector3.one;
+
+        [Tooltip("Real world size in meters for FurnitureItem initialization")]
+        public Vector3 realWorldSizeMeters = Vector3.one;
+
+        public string category;
     }
+
+    // ---------------------------------------------------------------
+    // CATALOG DATA (set in Inspector)
+    // ---------------------------------------------------------------
+
+    [SerializeField] private List<CatalogEntry> entries = new();
+
+    private Dictionary<string, CatalogEntry> _catalogLookup;
+
+    private void OnEnable() => BuildLookup();
+
+    private void BuildLookup()
+    {
+        _catalogLookup = new();
+        foreach (var entry in entries)
+            if (!string.IsNullOrEmpty(entry.itemKey))
+                _catalogLookup[entry.itemKey] = entry;
+    }
+
+    public CatalogEntry GetEntry(string itemKey)
+    {
+        if (_catalogLookup == null) BuildLookup();
+        return _catalogLookup.TryGetValue(itemKey, out var e) ? e : null;
+    }
+
+    // ---------------------------------------------------------------
+    // RUNTIME TRACKING (placed items in scene)
+    // ---------------------------------------------------------------
+
+    private readonly List<FurnitureItem> _placedItems = new();
 
     public void Register(FurnitureItem item)
     {
-        if (item == null || _placedItems.Contains(item))
-            return;
-
-        _placedItems.Add(item);
-        OnItemRegistered?.Invoke(item);
-        Debug.Log($"[FurnitureRegistry] Registered {item.FurnitureName}. " +
-                  $"Total: {_placedItems.Count}");
+        if (item != null && !_placedItems.Contains(item))
+            _placedItems.Add(item);
     }
 
     public void Unregister(FurnitureItem item)
     {
-        if (item == null || !_placedItems.Contains(item))
-            return;
-
         _placedItems.Remove(item);
-        OnItemUnregistered?.Invoke(item);
-        Debug.Log($"[FurnitureRegistry] Unregistered {item.FurnitureName}. " +
-                  $"Total: {_placedItems.Count}");
     }
 
-    public FurnitureItem GetById(string id)
-    {
-        return _placedItems.Find(item => item.FurnitureId == id);
-    }
+    public IReadOnlyList<FurnitureItem> PlacedItems => _placedItems;
 
-    public List<FurnitureItem> GetByCategory(string category)
-    {
-        return _placedItems.FindAll(item => item.Category == category);
-    }
-
-    public void Clear()
+    public void ClearPlacedItems()
     {
         _placedItems.Clear();
     }

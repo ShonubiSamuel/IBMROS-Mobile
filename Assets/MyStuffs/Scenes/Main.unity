@@ -702,7 +702,6 @@ GameObject:
   - component: {fileID: 1955431803}
   - component: {fileID: 1955431802}
   - component: {fileID: 1955431814}
-  - component: {fileID: 1955431816}
   - component: {fileID: 1955431815}
   m_Layer: 0
   m_Name: AppManagers
@@ -811,18 +810,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UndoRedoManager
   maxHistorySize: 50
---- !u!114 &1955431816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955431796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efbe607d8983489f9e7d46a1195d3f00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FurnitureRegistry
 --- !u!1 &2018184815
 GameObject:
   m_ObjectHideFlags: 0
