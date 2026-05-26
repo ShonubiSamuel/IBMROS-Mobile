@@ -172,12 +172,12 @@ public class RoomUIManager : MonoBehaviour
         if (parts.Length < 4) return;
 
         string emoji      = parts[0];
-        string brand      = parts[1];
-        string name       = parts[2];
-        string dimensions = parts[3];
+        string name       = parts[1];
+        string price      = parts[2];
+        string productId  = parts[3];
 
         furniturePanelController?.HideWithoutReset();
-        itemDetailSheetController?.Open(emoji, brand, name, dimensions);
+        itemDetailSheetController?.Open(emoji, name, price, productId);
     }
 
     // ---------------------------------------------------------------

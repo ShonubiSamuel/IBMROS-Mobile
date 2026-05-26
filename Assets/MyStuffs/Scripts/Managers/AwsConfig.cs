@@ -26,12 +26,16 @@ public static class AwsConfig
     public const string UserContentBucketName = "ibm-ros-user-content";
 
     // DynamoDB table names
-    public const string ProductsTableName = "ibm-ros-products";
-    public const string UserLayoutsTableName = "ibm-ros-user-layouts";
+    public const string ProductsTableName        = "ibm-ros-products";
+    public const string CategoriesTableName      = "ibm-ros-categories";
+    public const string ProductVariantsTableName = "ibm-ros-product-variants";
+    public const string UserLayoutsTableName     = "ibm-ros-user-layouts";
 
     // Token expiry buffer in minutes
     // Refresh token before it expires by this many minutes
     public const int TokenRefreshBufferMinutes = 5;
     
     public const string CloudFrontDomain = "https://d3lz5hvxtvmgbq.cloudfront.net";
+    
+  
 }

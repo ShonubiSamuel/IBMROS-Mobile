@@ -15,6 +15,7 @@ public class FurniturePanelController : MonoBehaviour
     private VisualElement _panel;
     private VisualElement _categoryGrid;
     private VisualElement _tabs;
+    private VisualElement _body;
     private Button        _tabRoom;
     private Button        _tabOtherRooms;
     private Label         _titleLabel;
@@ -25,162 +26,28 @@ public class FurniturePanelController : MonoBehaviour
     // STATE
     // ---------------------------------------------------------------
 
-    private bool   _isOpen    = false;
-    private bool   _isRoomTab = true;
-    private bool _hasStoredState = false;
+    private bool      _isOpen          = false;
+    private bool      _hasStoredState  = false;
+    private bool      _isRoomTab       = true;
     private Coroutine _animationCoroutine;
     private const float SLIDE_DURATION = 0.3f;
 
-    private readonly Stack<string> _navStack = new();
-
-    // ---------------------------------------------------------------
-    // CATEGORY DATA
-    // ---------------------------------------------------------------
-
-    private static readonly List<(string emoji, string name)> RoomCategories = new()
+    // Navigation stack entries carry enough info to restore each level
+    private class NavEntry
     {
-        ("🏗️", "Build"),
-        ("🛏️", "Bed"),
-        ("🪑", "Tables and Chairs"),
-        ("🪴", "Decoration"),
-        ("🚪", "Cabinets, Shelves"),
-        ("🛋️", "Seating Furniture"),
-        ("💡", "Lighting"),
-        ("📺", "Electronic Devices"),
-        ("🍳", "Kitchen"),
-        ("🎮", "Hobby & Entertainment"),
-        ("➕", "More"),
-    };
+        public string Title;
+        public string CategoryId;
+        public string SubcategoryId; // null when at category level
+        public bool   IsItemList;
+    }
 
-    private static readonly List<(string emoji, string name)> OtherRoomCategories = new()
-    {
-        ("🚿", "Bathroom"),
-        ("🏋️", "Gym"),
-        ("🖥️", "Store"),
-        ("☕", "Cafe & Bar"),
-        ("🎬", "Home Cinema"),
-        ("🧺", "Laundry"),
-        ("🚗", "Garage"),
-        ("💼", "Home Office"),
-        ("🍽️", "Dining Room"),
-        ("🌿", "Yard or Patio"),
-        ("🚪", "Hallway"),
-    };
+    private readonly Stack<NavEntry> _navStack = new();
 
-    private static readonly Dictionary<string, List<(string emoji, string name)>> SubCategories = new()
-    {
-        ["Bed"] = new()
-        {
-            ("🛏️", "Single Bed"), ("🛏️", "Double Bed"),
-            ("🛏️", "Queen Bed"),  ("🛏️", "King Bed"),
-            ("🪜", "Bunk Bed"),   ("🛋️", "Sofa Bed"),
-        },
-        ["Seating Furniture"] = new()
-        {
-            ("🛋️", "Sofas"),     ("🪑", "Armchairs"),
-            ("🛋️", "Sofa Beds"), ("🪑", "Ottomans"),
-            ("🪑", "Benches"),   ("🪑", "Stools"),
-        },
-        ["Tables and Chairs"] = new()
-        {
-            ("🍽️", "Dining Tables"), ("💻", "Desks"),
-            ("☕", "Coffee Tables"), ("🪑", "Dining Chairs"),
-            ("🪑", "Office Chairs"), ("📦", "Side Tables"),
-        },
-        ["Decoration"] = new()
-        {
-            ("🖼️", "Wall Art"), ("🪴", "Plants"),
-            ("🧶", "Rugs"),     ("🪞", "Mirrors"),
-            ("🕯️", "Candles"),  ("🏺", "Vases"),
-        },
-        ["Cabinets, Shelves"] = new()
-        {
-            ("🚪", "Wardrobes"),    ("📚", "Bookcases"),
-            ("📺", "TV Units"),     ("🗄️", "Sideboards"),
-            ("📦", "Storage Boxes"),("🗃️", "Shelving Units"),
-        },
-        ["Lighting"] = new()
-        {
-            ("💡", "Floor Lamps"),   ("🕯️", "Table Lamps"),
-            ("💡", "Ceiling Lights"),("💡", "Wall Lights"),
-            ("🔦", "Spotlights"),
-        },
-        ["Electronic Devices"] = new()
-        {
-            ("📺", "TVs"),       ("💻", "Computers"),
-            ("🖨️", "Printers"),  ("🔊", "Speakers"),
-        },
-        ["Kitchen"] = new()
-        {
-            ("🍳", "Kitchen Units"),      ("🧊", "Refrigerators"),
-            ("🫙", "Kitchen Accessories"),("🪣", "Sinks"),
-        },
-        ["Hobby & Entertainment"] = new()
-        {
-            ("🎮", "Gaming"), ("🎵", "Music"),
-            ("🏸", "Sports"), ("📷", "Photography"),
-        },
-        ["Bathroom"] = new()
-        {
-            ("🚿", "Showers"),         ("🛁", "Bathtubs"),
-            ("🪥", "Bathroom Storage"),("🪞", "Bathroom Mirrors"),
-        },
-        ["Home Office"] = new()
-        {
-            ("💻", "Desks"),       ("🪑", "Office Chairs"),
-            ("📚", "Bookshelves"), ("💡", "Desk Lamps"),
-        },
-        ["Dining Room"] = new()
-        {
-            ("🍽️", "Dining Tables"), ("🪑", "Dining Chairs"),
-            ("🗄️", "Sideboards"),    ("💡", "Dining Lighting"),
-        },
-    };
-
-    // Item data per subcategory
-    private static readonly Dictionary<string, List<(string emoji, string brand, string name, string dimensions, bool recommended)>> Items = new()
-    {
-        ["Single Bed"] = new()
-        {
-            ("🛏️", "IKEA", "BRIMNES", "90 × 200 cm", true),
-            ("🛏️", "IKEA", "MALM",    "90 × 200 cm", false),
-            ("🛏️", "IKEA", "HEMNES",  "90 × 200 cm", true),
-        },
-        ["Double Bed"] = new()
-        {
-            ("🛏️", "IKEA", "BRIMNES", "140 × 200 cm", true),
-            ("🛏️", "IKEA", "MALM",    "140 × 200 cm", false),
-        },
-        ["Queen Bed"] = new()
-        {
-            ("🛏️", "IKEA", "BRIMNES", "160 × 200 cm", true),
-            ("🛏️", "IKEA", "FOLLDAL", "160 × 200 cm", true),
-            ("🛏️", "IKEA", "HEMNES",  "160 × 200 cm", false),
-        },
-        ["King Bed"] = new()
-        {
-            ("🛏️", "IKEA", "BRIMNES", "180 × 200 cm", false),
-            ("🛏️", "IKEA", "MALM",    "180 × 200 cm", true),
-        },
-        ["Sofas"] = new()
-        {
-            ("🛋️", "IKEA", "KIVIK",   "280 × 95 cm", true),
-            ("🛋️", "IKEA", "EKTORP",  "240 × 88 cm", false),
-            ("🛋️", "IKEA", "SÖDERHAMN","270 × 99 cm", true),
-        },
-        ["Dining Tables"] = new()
-        {
-            ("🍽️", "IKEA", "EKEDALEN", "120 × 80 cm", true),
-            ("🍽️", "IKEA", "LISABO",   "140 × 78 cm", false),
-            ("🍽️", "IKEA", "INGATORP", "155 × 85 cm", true),
-        },
-        ["Desks"] = new()
-        {
-            ("💻", "IKEA", "MICKE",   "105 × 50 cm", true),
-            ("💻", "IKEA", "LAGKAPTEN","140 × 60 cm", false),
-            ("💻", "IKEA", "ALEX",    "132 × 58 cm", true),
-        },
-    };
+    // Cached data so back navigation does not re-fetch
+    private List<CategoryModel>        _cachedCategories;
+    private List<ProductModel>         _cachedProducts;
+    private string                     _activeCategoryId;
+    private string                     _activeSubcategoryId;
 
     // ---------------------------------------------------------------
     // INITIALIZE
@@ -189,6 +56,7 @@ public class FurniturePanelController : MonoBehaviour
     public void Initialize(VisualElement root)
     {
         _panel         = root.Q<VisualElement>("FurniturePanel");
+        _body          = root.Q<VisualElement>("FurniturePanelBody");
         _categoryGrid  = root.Q<VisualElement>("FurnitureCategoryGrid");
         _tabs          = root.Q<VisualElement>("FurniturePanelTabs");
         _tabRoom       = root.Q<Button>("TabRoom");
@@ -199,16 +67,37 @@ public class FurniturePanelController : MonoBehaviour
 
         if (_panel == null)
             Debug.LogError("[FurniturePanelController] FurniturePanel not found.");
-        
+
+        // Block all pointer events from leaking outside the panel
         _panel?.RegisterCallback<ClickEvent>(evt => evt.StopPropagation());
-        _panel?.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation(), TrickleDown.TrickleDown);
+        _panel?.RegisterCallback<PointerDownEvent>(
+            evt => evt.StopPropagation(), TrickleDown.TrickleDown);
+        _panel?.RegisterCallback<PointerMoveEvent>(evt => evt.StopPropagation());
         _panel?.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
 
         _tabRoom?.RegisterCallback<ClickEvent>(evt => SwitchTab(true));
         _tabOtherRooms?.RegisterCallback<ClickEvent>(evt => SwitchTab(false));
         _backButton?.RegisterCallback<ClickEvent>(evt => NavigateBack());
 
-        BuildCategoryGrid(RoomCategories);
+        // Subscribe to data service events
+        FurnitureDataService.OnCategoriesLoaded  += HandleCategoriesLoaded;
+        FurnitureDataService.OnCategoriesFailed  += HandleDataFailed;
+        FurnitureDataService.OnProductsLoaded    += HandleProductsLoaded;
+        FurnitureDataService.OnProductsFailed    += HandleDataFailed;
+        FurnitureDataService.OnSearchResultsLoaded += HandleSearchResults;
+        FurnitureDataService.OnSearchFailed      += HandleDataFailed;
+        FurnitureDataService.OnLoadingChanged    += HandleLoadingChanged;
+    }
+
+    void OnDestroy()
+    {
+        FurnitureDataService.OnCategoriesLoaded  -= HandleCategoriesLoaded;
+        FurnitureDataService.OnCategoriesFailed  -= HandleDataFailed;
+        FurnitureDataService.OnProductsLoaded    -= HandleProductsLoaded;
+        FurnitureDataService.OnProductsFailed    -= HandleDataFailed;
+        FurnitureDataService.OnSearchResultsLoaded -= HandleSearchResults;
+        FurnitureDataService.OnSearchFailed      -= HandleDataFailed;
+        FurnitureDataService.OnLoadingChanged    -= HandleLoadingChanged;
     }
 
     // ---------------------------------------------------------------
@@ -223,37 +112,80 @@ public class FurniturePanelController : MonoBehaviour
         {
             _tabRoom?.AddToClassList("furniture-tab--active");
             _tabOtherRooms?.RemoveFromClassList("furniture-tab--active");
-            BuildCategoryGrid(RoomCategories);
         }
         else
         {
             _tabOtherRooms?.AddToClassList("furniture-tab--active");
             _tabRoom?.RemoveFromClassList("furniture-tab--active");
-            BuildCategoryGrid(OtherRoomCategories);
         }
+
+        // Re-render categories for the selected tab
+        if (_cachedCategories != null)
+            BuildCategoryGrid(FilterCategoriesForTab(_cachedCategories));
+    }
+
+    private List<CategoryModel> FilterCategoriesForTab(List<CategoryModel> all)
+    {
+        // Room tab — indoor furniture categories
+        var roomIds = new HashSet<string>
+            { "0001", "0003", "0004", "0007", "0008", "0009", "0011", "0016" };
+
+        // Other Rooms tab — outdoor and specialty
+        var otherIds = new HashSet<string> { "0005" };
+
+        return _isRoomTab
+            ? all.FindAll(c => roomIds.Contains(c.CategoryId))
+            : all.FindAll(c => otherIds.Contains(c.CategoryId));
     }
 
     // ---------------------------------------------------------------
     // NAVIGATION
     // ---------------------------------------------------------------
 
-    private void NavigateTo(string name)
+    private void NavigateTo(CategoryModel category)
     {
-        _navStack.Push(name);
-        UpdateHeader(name);
+        _activeCategoryId    = category.CategoryId;
+        _activeSubcategoryId = null;
 
-        if (Items.ContainsKey(name))
+        _navStack.Push(new NavEntry
         {
-            ShowItemList(name);
-        }
-        else if (SubCategories.TryGetValue(name, out var subs))
+            Title         = CategoryMapper.GetAppCategoryName(category.CategoryId)
+                            ?? category.CategoryName,
+            CategoryId    = category.CategoryId,
+            IsItemList    = false
+        });
+
+        UpdateHeader(_navStack.Peek().Title);
+
+        // Show subcategories from the category's own subcategory list
+        if (category.Subcategories != null && category.Subcategories.Count > 0)
         {
-            BuildCategoryGrid(subs, isSubCategory: true);
+            BuildSubcategoryGrid(category.Subcategories, category.CategoryId);
         }
         else
         {
-            BuildEmptyState(name);
+            // No subcategories — go straight to product list
+            _ = FurnitureDataService.Instance.LoadProductsByCategory(category.CategoryId);
         }
+    }
+
+    private void NavigateToSubcategory(
+        SubcategoryModel sub, string categoryId)
+    {
+        _activeSubcategoryId = sub.SubcategoryId;
+
+        _navStack.Push(new NavEntry
+        {
+            Title          = sub.SubcategoryName,
+            CategoryId     = categoryId,
+            SubcategoryId  = sub.SubcategoryId,
+            IsItemList     = true
+        });
+
+        UpdateHeader(sub.SubcategoryName);
+
+        _ = FurnitureDataService.Instance
+            .LoadProductsBySubcategory(categoryId, sub.SubcategoryId);
     }
 
     private void NavigateBack()
@@ -264,27 +196,55 @@ public class FurniturePanelController : MonoBehaviour
 
         if (_navStack.Count == 0)
         {
+            // Back to root category grid
             UpdateHeader(null);
-            BuildCategoryGrid(_isRoomTab ? RoomCategories : OtherRoomCategories);
+            CleanItemListViews();
+            ShowCategoryScroll();
+
+            if (_cachedCategories != null)
+                BuildCategoryGrid(FilterCategoriesForTab(_cachedCategories));
+            else
+                _ = FurnitureDataService.Instance.LoadCategories();
+
+            return;
+        }
+
+        var entry = _navStack.Peek();
+        UpdateHeader(entry.Title);
+
+        if (entry.IsItemList)
+        {
+            // Back to a product list
+            if (_cachedProducts != null)
+            {
+                CleanItemListViews();
+                HideCategoryScroll();
+                BuildItemList(_cachedProducts, entry.SubcategoryId);
+            }
+            else
+            {
+                _ = FurnitureDataService.Instance
+                    .LoadProductsBySubcategory(entry.CategoryId, entry.SubcategoryId);
+            }
         }
         else
         {
-            string parent = _navStack.Peek();
-            UpdateHeader(parent);
+            // Back to a subcategory grid
+            CleanItemListViews();
+            ShowCategoryScroll();
 
-            if (Items.ContainsKey(parent))
-                ShowItemList(parent);
-            else if (SubCategories.TryGetValue(parent, out var subs))
-                BuildCategoryGrid(subs, isSubCategory: true);
+            var category = _cachedCategories?.Find(c => c.CategoryId == entry.CategoryId);
+            if (category?.Subcategories != null)
+                BuildSubcategoryGrid(category.Subcategories, entry.CategoryId);
         }
     }
 
-    private void UpdateHeader(string categoryName)
+    private void UpdateHeader(string title)
     {
-        bool atRoot = (categoryName == null);
+        bool atRoot = (title == null);
 
         if (_titleLabel != null)
-            _titleLabel.text = atRoot ? "Room" : categoryName;
+            _titleLabel.text = atRoot ? "Room" : title;
 
         if (_backButton != null)
         {
@@ -299,38 +259,70 @@ public class FurniturePanelController : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
+    // DATA SERVICE HANDLERS
+    // ---------------------------------------------------------------
+
+    private void HandleCategoriesLoaded(List<CategoryModel> categories)
+    {
+        _cachedCategories = categories;
+        BuildCategoryGrid(FilterCategoriesForTab(categories));
+    }
+
+    private void HandleProductsLoaded(List<ProductModel> products, string context)
+    {
+        _cachedProducts = products;
+        CleanItemListViews();
+        HideCategoryScroll();
+        BuildItemList(products, context);
+    }
+
+    private void HandleSearchResults(List<ProductModel> results)
+    {
+        _cachedProducts = results;
+        CleanItemListViews();
+        HideCategoryScroll();
+        BuildItemList(results, "Search Results");
+    }
+
+    private void HandleDataFailed(string message)
+    {
+        ShowErrorState(message);
+    }
+
+    private void HandleLoadingChanged(bool isLoading, string message)
+    {
+        if (isLoading)
+            ShowLoadingState(message);
+        else
+            HideLoadingState();
+    }
+
+    // ---------------------------------------------------------------
     // CATEGORY GRID
     // ---------------------------------------------------------------
 
-    private void BuildCategoryGrid(
-        List<(string emoji, string name)> categories,
-        bool isSubCategory = false)
+    private void BuildCategoryGrid(List<CategoryModel> categories)
     {
         if (_categoryGrid == null) return;
 
         _categoryGrid.Clear();
+        ShowCategoryScroll();
 
-        // Remove stale item list elements
-        _panel.Q<ScrollView>("ItemListScroll")?.RemoveFromHierarchy();
-        _panel.Q<ScrollView>("FilterChipsScroll")?.RemoveFromHierarchy();
-        _panel.Q<VisualElement>("SortBar")?.RemoveFromHierarchy();
-
-        // Show the category scroll view again
-        var categoryScroll = _panel.Q<ScrollView>("FurniturePanelScroll");
-        if (categoryScroll != null)
-            categoryScroll.style.display = DisplayStyle.Flex;
-
-        _categoryGrid.style.display = DisplayStyle.Flex;
+        if (categories == null || categories.Count == 0)
+        {
+            ShowEmptyState("No categories available.");
+            return;
+        }
 
         for (int i = 0; i < categories.Count; i += 2)
         {
             var row = new VisualElement();
             row.AddToClassList("category-grid-row");
 
-            row.Add(CreateCategoryCard(categories[i].emoji, categories[i].name));
+            row.Add(CreateCategoryCard(categories[i]));
 
             if (i + 1 < categories.Count)
-                row.Add(CreateCategoryCard(categories[i + 1].emoji, categories[i + 1].name));
+                row.Add(CreateCategoryCard(categories[i + 1]));
             else
             {
                 var spacer = new VisualElement();
@@ -345,7 +337,78 @@ public class FurniturePanelController : MonoBehaviour
         }
     }
 
-    private Button CreateCategoryCard(string emoji, string name)
+    private Button CreateCategoryCard(CategoryModel category)
+    {
+        string appName = CategoryMapper.GetAppCategoryName(category.CategoryId)
+                         ?? category.CategoryName;
+        string emoji   = CategoryMapper.GetCategoryEmoji(appName);
+
+        var card = new Button();
+        card.AddToClassList("category-card");
+
+        var iconArea = new VisualElement();
+        iconArea.AddToClassList("category-card__icon-area");
+
+        var emojiLabel = new Label(emoji);
+        emojiLabel.AddToClassList("category-card__emoji");
+
+        var nameLabel = new Label(appName);
+        nameLabel.AddToClassList("category-card__name");
+
+        iconArea.Add(emojiLabel);
+        card.Add(iconArea);
+        card.Add(nameLabel);
+
+        card.RegisterCallback<ClickEvent>(evt =>
+        {
+            evt.StopPropagation();
+            NavigateTo(category);
+        });
+
+        return card;
+    }
+
+    // ---------------------------------------------------------------
+    // SUBCATEGORY GRID
+    // ---------------------------------------------------------------
+
+    private void BuildSubcategoryGrid(
+        List<SubcategoryModel> subcategories, string categoryId)
+    {
+        if (_categoryGrid == null) return;
+
+        _categoryGrid.Clear();
+        ShowCategoryScroll();
+
+        string emoji = CategoryMapper.GetCategoryEmoji(
+            CategoryMapper.GetAppCategoryName(categoryId) ?? "");
+
+        for (int i = 0; i < subcategories.Count; i += 2)
+        {
+            var row = new VisualElement();
+            row.AddToClassList("category-grid-row");
+
+            row.Add(CreateSubcategoryCard(subcategories[i], categoryId, emoji));
+
+            if (i + 1 < subcategories.Count)
+                row.Add(CreateSubcategoryCard(
+                    subcategories[i + 1], categoryId, emoji));
+            else
+            {
+                var spacer = new VisualElement();
+                spacer.style.flexGrow   = 1;
+                spacer.style.flexShrink = 1;
+                spacer.style.marginLeft  = 4;
+                spacer.style.marginRight = 4;
+                row.Add(spacer);
+            }
+
+            _categoryGrid.Add(row);
+        }
+    }
+
+    private Button CreateSubcategoryCard(
+        SubcategoryModel sub, string categoryId, string emoji)
     {
         var card = new Button();
         card.AddToClassList("category-card");
@@ -356,14 +419,18 @@ public class FurniturePanelController : MonoBehaviour
         var emojiLabel = new Label(emoji);
         emojiLabel.AddToClassList("category-card__emoji");
 
-        var nameLabel = new Label(name);
+        var nameLabel = new Label(sub.SubcategoryName);
         nameLabel.AddToClassList("category-card__name");
 
         iconArea.Add(emojiLabel);
         card.Add(iconArea);
         card.Add(nameLabel);
 
-        card.RegisterCallback<ClickEvent>(evt => NavigateTo(name));
+        card.RegisterCallback<ClickEvent>(evt =>
+        {
+            evt.StopPropagation();
+            NavigateToSubcategory(sub, categoryId);
+        });
 
         return card;
     }
@@ -372,69 +439,120 @@ public class FurniturePanelController : MonoBehaviour
     // ITEM LIST
     // ---------------------------------------------------------------
 
-    private void ShowItemList(string subcategoryName)
+    private void BuildItemList(List<ProductModel> products, string context)
     {
-        if (_categoryGrid == null) return;
+        if (_body == null) return;
 
-        // Hide the category scroll view
-        var categoryScroll = _panel.Q<ScrollView>("FurniturePanelScroll");
-        if (categoryScroll != null)
-            categoryScroll.style.display = DisplayStyle.None;
+        // Filter chips from sibling subcategories if available
+        BuildFilterChips(context);
 
-        // Remove stale item list elements
-        var body = _panel.Q<VisualElement>("FurniturePanelBody");
-        if (body == null) return;
+        // Sort bar
+        BuildSortBar();
 
-        body.Q<ScrollView>("ItemListScroll")?.RemoveFromHierarchy();
-        body.Q<ScrollView>("FilterChipsScroll")?.RemoveFromHierarchy();
-        body.Q<VisualElement>("SortBar")?.RemoveFromHierarchy();
+        // Item scroll
+        var itemScroll = new ScrollView(ScrollViewMode.Vertical);
+        itemScroll.name = "ItemListScroll";
+        itemScroll.AddToClassList("item-list-scroll");
+        itemScroll.verticalScrollerVisibility   = ScrollerVisibility.Hidden;
+        itemScroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+        itemScroll.touchScrollBehavior = ScrollView.TouchScrollBehavior.Clamped;
+        itemScroll.contentContainer.pickingMode = PickingMode.Position;
 
-        // -- Filter chips (horizontal scroll) --
+        var itemContainer = new VisualElement();
+        itemContainer.AddToClassList("item-list-container");
+
+        if (products == null || products.Count == 0)
+        {
+            var empty = new Label("No items found in this category.");
+            empty.style.color          = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
+            empty.style.fontSize       = 13;
+            empty.style.unityTextAlign = TextAnchor.MiddleCenter;
+            empty.style.marginTop      = 40;
+            empty.style.whiteSpace     = WhiteSpace.Normal;
+            empty.style.paddingLeft    = 20;
+            empty.style.paddingRight   = 20;
+            itemContainer.Add(empty);
+        }
+        else
+        {
+            foreach (var product in products)
+                itemContainer.Add(CreateItemCard(product));
+        }
+
+        itemScroll.Add(itemContainer);
+        _body.Add(itemScroll);
+    }
+
+    private void BuildFilterChips(string activeSubcategoryId)
+    {
+        if (_body == null) return;
+
+        // Get sibling subcategories from active category
+        var siblings = GetSiblingSubcategories(activeSubcategoryId);
+        if (siblings == null || siblings.Count <= 1) return;
+
         var chipsScroll = new ScrollView(ScrollViewMode.Horizontal);
         chipsScroll.name = "FilterChipsScroll";
         chipsScroll.AddToClassList("filter-chips-scroll");
         chipsScroll.verticalScrollerVisibility   = ScrollerVisibility.Hidden;
         chipsScroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
-        chipsScroll.touchScrollBehavior          = ScrollView.TouchScrollBehavior.Clamped;
-        chipsScroll.mouseWheelScrollSize         = 100f;
+        chipsScroll.touchScrollBehavior = ScrollView.TouchScrollBehavior.Clamped;
+        chipsScroll.mouseWheelScrollSize = 100f;
         chipsScroll.contentContainer.style.flexDirection = FlexDirection.Row;
         chipsScroll.contentContainer.style.alignItems    = Align.Center;
         chipsScroll.contentContainer.pickingMode         = PickingMode.Position;
-        
-        var chips = GetSiblingNames(subcategoryName);
-        foreach (var chip in chips)
+
+        foreach (var (sub, categoryId) in siblings)
         {
             var chipBtn = new Button();
             chipBtn.AddToClassList("filter-chip");
 
-            // Mark active based on current subcategory, not just first
-            if (chip == subcategoryName)
+            if (sub.SubcategoryId == activeSubcategoryId)
                 chipBtn.AddToClassList("filter-chip--active");
 
-            var chipLabel = new Label(chip);
+            var chipLabel = new Label(sub.SubcategoryName);
             chipLabel.AddToClassList("filter-chip__label");
             chipBtn.Add(chipLabel);
 
-            string chipName = chip;
+            var capturedSub       = sub;
+            var capturedCategoryId = categoryId;
+
             chipBtn.RegisterCallback<ClickEvent>(evt =>
             {
                 evt.StopPropagation();
+
                 foreach (var c in chipsScroll.contentContainer.Children())
                     c.RemoveFromClassList("filter-chip--active");
                 chipBtn.AddToClassList("filter-chip--active");
 
-                _navStack.Pop();
-                _navStack.Push(chipName);
-                UpdateHeader(chipName);
-                ShowItemList(chipName);
+                // Update nav stack top entry
+                if (_navStack.Count > 0)
+                {
+                    var top = _navStack.Peek();
+                    top.Title        = capturedSub.SubcategoryName;
+                    top.SubcategoryId = capturedSub.SubcategoryId;
+                    _activeSubcategoryId = capturedSub.SubcategoryId;
+                }
+
+                UpdateHeader(capturedSub.SubcategoryName);
+                CleanItemListViews();
+                HideCategoryScroll();
+
+                _ = FurnitureDataService.Instance
+                    .LoadProductsBySubcategory(capturedCategoryId,
+                                               capturedSub.SubcategoryId);
             });
 
             chipsScroll.Add(chipBtn);
         }
 
-        body.Add(chipsScroll);
+        _body.Add(chipsScroll);
+    }
 
-        // -- Sort bar --
+    private void BuildSortBar()
+    {
+        if (_body == null) return;
+
         var sortBar = new VisualElement();
         sortBar.name = "SortBar";
         sortBar.AddToClassList("sort-bar");
@@ -466,46 +584,10 @@ public class FurniturePanelController : MonoBehaviour
         filterIconBtn.Add(filterIcon);
         sortBar.Add(filterIconBtn);
 
-        body.Add(sortBar);
-
-        // -- Item list --
-        var itemScroll = new ScrollView(ScrollViewMode.Vertical);
-        itemScroll.name = "ItemListScroll";
-        itemScroll.AddToClassList("item-list-scroll");
-        itemScroll.verticalScrollerVisibility   = ScrollerVisibility.Hidden;
-        itemScroll.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
-        itemScroll.touchScrollBehavior          = ScrollView.TouchScrollBehavior.Clamped;
-        itemScroll.contentContainer.pickingMode = PickingMode.Position;
-
-        var itemContainer = new VisualElement();
-        itemContainer.AddToClassList("item-list-container");
-
-        var itemList = Items.ContainsKey(subcategoryName)
-            ? Items[subcategoryName]
-            : new List<(string, string, string, string, bool)>();
-
-        foreach (var (emoji, brand, name, dimensions, recommended) in itemList)
-            itemContainer.Add(CreateItemCard(emoji, brand, name, dimensions, recommended));
-
-        if (itemList.Count == 0)
-        {
-            var empty = new Label($"No items yet for \"{subcategoryName}\".");
-            empty.style.color              = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
-            empty.style.fontSize           = 13;
-            empty.style.unityTextAlign     = TextAnchor.MiddleCenter;
-            empty.style.marginTop          = 40;
-            empty.style.whiteSpace         = WhiteSpace.Normal;
-            empty.style.paddingLeft        = 20;
-            empty.style.paddingRight       = 20;
-            itemContainer.Add(empty);
-        }
-
-        itemScroll.Add(itemContainer);
-        body.Add(itemScroll);
+        _body.Add(sortBar);
     }
 
-    private VisualElement CreateItemCard(
-        string emoji, string brand, string name, string dimensions, bool recommended)
+    private VisualElement CreateItemCard(ProductModel product)
     {
         var card = new VisualElement();
         card.AddToClassList("item-card");
@@ -514,10 +596,16 @@ public class FurniturePanelController : MonoBehaviour
         var imageArea = new VisualElement();
         imageArea.AddToClassList("item-card__image-area");
 
-        var emojiLabel = new Label(emoji);
+        // Emoji placeholder until real images load
+        var emojiLabel = new Label(
+            CategoryMapper.GetCategoryEmoji(
+                CategoryMapper.GetAppCategoryName(_activeCategoryId) ?? ""));
         emojiLabel.AddToClassList("item-card__placeholder-emoji");
         imageArea.Add(emojiLabel);
 
+        // Recommended badge for well-rated items
+        bool recommended = product.StarRatingValue >= 4.5f
+                           && product.ReviewCountValue >= 10;
         if (recommended)
         {
             var badge     = new VisualElement();
@@ -537,22 +625,23 @@ public class FurniturePanelController : MonoBehaviour
         var textCol = new VisualElement();
         textCol.AddToClassList("item-card__text");
 
-        var nameLabel = new Label($"{brand} {name}");
+        var nameLabel = new Label(product.Name);
         nameLabel.AddToClassList("item-card__name");
 
-        var dimsLabel = new Label(dimensions);
-        dimsLabel.AddToClassList("item-card__dimensions");
+        var priceLabel = new Label(product.FormattedPrice);
+        priceLabel.AddToClassList("item-card__dimensions");
 
         textCol.Add(nameLabel);
-        textCol.Add(dimsLabel);
+        textCol.Add(priceLabel);
 
-        var favBtn = new Button();
+        var favBtn  = new Button();
         favBtn.AddToClassList("item-card__fav-btn");
         var favIcon = new Label("☆");
         favIcon.AddToClassList("item-card__fav-icon");
         favBtn.Add(favIcon);
         favBtn.RegisterCallback<ClickEvent>(evt =>
         {
+            evt.StopPropagation();
             favIcon.text = favIcon.text == "☆" ? "★" : "☆";
         });
 
@@ -560,37 +649,119 @@ public class FurniturePanelController : MonoBehaviour
         info.Add(favBtn);
         card.Add(info);
 
-        // Tap whole card
+        // Tap card — pass full product data through pipe format
         card.RegisterCallback<ClickEvent>(evt =>
         {
             evt.StopPropagation();
-            Debug.Log($"[FurniturePanel] Item tapped: {brand} {name}");
-            OnItemSelected?.Invoke($"{emoji}|{brand}|{name}|{dimensions}");
+            string emoji = CategoryMapper.GetCategoryEmoji(
+                CategoryMapper.GetAppCategoryName(_activeCategoryId) ?? "");
+
+            // Format: emoji|name|price|productId
+            OnItemSelected?.Invoke(
+                $"{emoji}|{product.Name}|{product.FormattedPrice}|{product.ProductId}");
         });
 
         return card;
     }
 
-    // Returns sibling chip names for the horizontal filter row
-    private List<string> GetSiblingNames(string currentName)
+    // ---------------------------------------------------------------
+    // SIBLING SUBCATEGORIES FOR FILTER CHIPS
+    // ---------------------------------------------------------------
+
+    private List<(SubcategoryModel sub, string categoryId)> GetSiblingSubcategories(
+        string subcategoryId)
     {
-        foreach (var subs in SubCategories.Values)
+        if (_cachedCategories == null || string.IsNullOrEmpty(subcategoryId))
+            return null;
+
+        foreach (var category in _cachedCategories)
         {
-            foreach (var (_, name) in subs)
+            if (category.Subcategories == null) continue;
+
+            foreach (var sub in category.Subcategories)
             {
-                if (name == currentName)
-                    return subs.ConvertAll(s => s.name);
+                if (sub.SubcategoryId != subcategoryId) continue;
+
+                var result = new List<(SubcategoryModel, string)>();
+                foreach (var sibling in category.Subcategories)
+                    result.Add((sibling, category.CategoryId));
+
+                return result;
             }
         }
-        return new List<string> { currentName };
+
+        return null;
     }
 
-    private void BuildEmptyState(string categoryName)
+    // ---------------------------------------------------------------
+    // LOADING AND ERROR STATES
+    // ---------------------------------------------------------------
+
+    private void ShowLoadingState(string message)
     {
         if (_categoryGrid == null) return;
+
         _categoryGrid.Clear();
 
-        var label = new Label($"Items for \"{categoryName}\" coming soon.");
+        var label = new Label(string.IsNullOrEmpty(message) ? "Loading..." : message);
+        label.style.color          = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
+        label.style.fontSize       = 13;
+        label.style.unityTextAlign = TextAnchor.MiddleCenter;
+        label.style.marginTop      = 40;
+        label.style.whiteSpace     = WhiteSpace.Normal;
+        label.style.paddingLeft    = 20;
+        label.style.paddingRight   = 20;
+
+        _categoryGrid.Add(label);
+        ShowCategoryScroll();
+    }
+
+    private void HideLoadingState()
+    {
+        // Data handlers will rebuild the grid when data arrives
+    }
+
+    private void ShowErrorState(string message)
+    {
+        if (_categoryGrid == null) return;
+
+        _categoryGrid.Clear();
+        CleanItemListViews();
+        ShowCategoryScroll();
+
+        var label = new Label(message);
+        label.style.color          = new StyleColor(new Color(0.8f, 0.2f, 0.2f));
+        label.style.fontSize       = 13;
+        label.style.unityTextAlign = TextAnchor.MiddleCenter;
+        label.style.marginTop      = 40;
+        label.style.whiteSpace     = WhiteSpace.Normal;
+        label.style.paddingLeft    = 20;
+        label.style.paddingRight   = 20;
+
+        _categoryGrid.Add(label);
+
+        // Retry button
+        var retryBtn = new Button();
+        retryBtn.text = "Retry";
+        retryBtn.style.marginTop      = 16;
+        retryBtn.style.alignSelf      = Align.Center;
+        retryBtn.style.paddingLeft    = 20;
+        retryBtn.style.paddingRight   = 20;
+
+        retryBtn.RegisterCallback<ClickEvent>(evt =>
+        {
+            evt.StopPropagation();
+            _ = FurnitureDataService.Instance.LoadCategories();
+        });
+
+        _categoryGrid.Add(retryBtn);
+    }
+
+    private void ShowEmptyState(string message)
+    {
+        if (_categoryGrid == null) return;
+
+        var label = new Label(message);
         label.style.color          = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
         label.style.fontSize       = 13;
         label.style.unityTextAlign = TextAnchor.MiddleCenter;
@@ -603,7 +774,33 @@ public class FurniturePanelController : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
-    // OPEN / CLOSE
+    // SCROLL VIEW HELPERS
+    // ---------------------------------------------------------------
+
+    private void ShowCategoryScroll()
+    {
+        var scroll = _panel?.Q<ScrollView>("FurniturePanelScroll");
+        if (scroll != null)
+            scroll.style.display = DisplayStyle.Flex;
+    }
+
+    private void HideCategoryScroll()
+    {
+        var scroll = _panel?.Q<ScrollView>("FurniturePanelScroll");
+        if (scroll != null)
+            scroll.style.display = DisplayStyle.None;
+    }
+
+    private void CleanItemListViews()
+    {
+        if (_body == null) return;
+        _body.Q<ScrollView>("ItemListScroll")?.RemoveFromHierarchy();
+        _body.Q<ScrollView>("FilterChipsScroll")?.RemoveFromHierarchy();
+        _body.Q<VisualElement>("SortBar")?.RemoveFromHierarchy();
+    }
+
+    // ---------------------------------------------------------------
+    // OPEN / CLOSE / RESTORE
     // ---------------------------------------------------------------
 
     public void Open()
@@ -613,37 +810,83 @@ public class FurniturePanelController : MonoBehaviour
 
         if (!_hasStoredState)
         {
-            // Fresh open — start from root
             _navStack.Clear();
             UpdateHeader(null);
-            BuildCategoryGrid(_isRoomTab ? RoomCategories : OtherRoomCategories);
+            CleanItemListViews();
+            ShowCategoryScroll();
+
+            if (_cachedCategories != null)
+                BuildCategoryGrid(FilterCategoriesForTab(_cachedCategories));
+            else
+                _ = FurnitureDataService.Instance.LoadCategories();
         }
         else
         {
-            // Restore previous state
             _hasStoredState = false;
             RestoreState();
         }
 
-        if (_animationCoroutine != null)
-            StopCoroutine(_animationCoroutine);
-
+        if (_animationCoroutine != null) StopCoroutine(_animationCoroutine);
         _animationCoroutine = StartCoroutine(SlideIn());
     }
 
     public void Close()
     {
         if (!_isOpen) return;
-        _isOpen = false;
+        _isOpen         = false;
         _hasStoredState = false;
 
-        if (_animationCoroutine != null)
-            StopCoroutine(_animationCoroutine);
-
+        if (_animationCoroutine != null) StopCoroutine(_animationCoroutine);
         _animationCoroutine = StartCoroutine(SlideOut(fireClosedEvent: true));
     }
 
+    public void HideWithoutReset()
+    {
+        if (!_isOpen) return;
+        _isOpen         = false;
+        _hasStoredState = true;
+
+        if (_animationCoroutine != null) StopCoroutine(_animationCoroutine);
+        _animationCoroutine = StartCoroutine(SlideOut(fireClosedEvent: false));
+    }
+
     public bool IsOpen => _isOpen;
+
+    private void RestoreState()
+    {
+        if (_navStack.Count == 0)
+        {
+            UpdateHeader(null);
+            CleanItemListViews();
+            ShowCategoryScroll();
+
+            if (_cachedCategories != null)
+                BuildCategoryGrid(FilterCategoriesForTab(_cachedCategories));
+            else
+                _ = FurnitureDataService.Instance.LoadCategories();
+
+            return;
+        }
+
+        var entry = _navStack.Peek();
+        UpdateHeader(entry.Title);
+
+        if (entry.IsItemList && _cachedProducts != null)
+        {
+            CleanItemListViews();
+            HideCategoryScroll();
+            BuildItemList(_cachedProducts, entry.SubcategoryId);
+        }
+        else if (!entry.IsItemList)
+        {
+            CleanItemListViews();
+            ShowCategoryScroll();
+
+            var category = _cachedCategories?.Find(c => c.CategoryId == entry.CategoryId);
+            if (category?.Subcategories != null)
+                BuildSubcategoryGrid(category.Subcategories, entry.CategoryId);
+        }
+    }
 
     // ---------------------------------------------------------------
     // ANIMATION
@@ -660,38 +903,10 @@ public class FurniturePanelController : MonoBehaviour
                 new Translate(Length.Percent(Mathf.Lerp(100f, 0f, eased)), 0));
             yield return null;
         }
-        _panel.style.translate = new StyleTranslate(new Translate(Length.Percent(0), 0));
+        _panel.style.translate = new StyleTranslate(
+            new Translate(Length.Percent(0), 0));
     }
 
-    private IEnumerator SlideOut()
-    {
-        float elapsed = 0f;
-        while (elapsed < SLIDE_DURATION)
-        {
-            elapsed += Time.deltaTime;
-            float eased = EaseInCubic(Mathf.Clamp01(elapsed / SLIDE_DURATION));
-            _panel.style.translate = new StyleTranslate(
-                new Translate(Length.Percent(Mathf.Lerp(0f, 100f, eased)), 0));
-            yield return null;
-        }
-        _panel.style.translate = new StyleTranslate(new Translate(Length.Percent(100), 0));
-        OnPanelClosed?.Invoke();
-    }
-
-    private float EaseOutCubic(float t) => 1f - Mathf.Pow(1f - t, 3f);
-    private float EaseInCubic(float t)  => t * t * t;
-    
-    public void HideWithoutReset()
-    {
-        if (!_isOpen) return;
-        _isOpen = false;
-        _hasStoredState = true;
-
-        if (_animationCoroutine != null)
-            StopCoroutine(_animationCoroutine);
-
-        _animationCoroutine = StartCoroutine(SlideOut(fireClosedEvent: false));
-    }
     private IEnumerator SlideOut(bool fireClosedEvent = true)
     {
         float elapsed = 0f;
@@ -703,29 +918,13 @@ public class FurniturePanelController : MonoBehaviour
                 new Translate(Length.Percent(Mathf.Lerp(0f, 100f, eased)), 0));
             yield return null;
         }
-        _panel.style.translate = new StyleTranslate(new Translate(Length.Percent(100), 0));
+        _panel.style.translate = new StyleTranslate(
+            new Translate(Length.Percent(100), 0));
 
         if (fireClosedEvent)
             OnPanelClosed?.Invoke();
     }
-    
-    private void RestoreState()
-    {
-        if (_navStack.Count == 0)
-        {
-            UpdateHeader(null);
-            BuildCategoryGrid(_isRoomTab ? RoomCategories : OtherRoomCategories);
-            return;
-        }
 
-        string current = _navStack.Peek();
-        UpdateHeader(current);
-
-        if (Items.ContainsKey(current))
-            ShowItemList(current);
-        else if (SubCategories.TryGetValue(current, out var subs))
-            BuildCategoryGrid(subs, isSubCategory: true);
-        else
-            BuildCategoryGrid(_isRoomTab ? RoomCategories : OtherRoomCategories);
-    }
+    private float EaseOutCubic(float t) => 1f - Mathf.Pow(1f - t, 3f);
+    private float EaseInCubic(float t)  => t * t * t;
 }

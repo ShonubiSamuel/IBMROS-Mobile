@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -118,38 +119,99 @@ public class ItemDetailSheetController : MonoBehaviour
         // Stop sheet from bubbling taps to overlay
         _sheet?.RegisterCallback<ClickEvent>(evt => evt.StopPropagation());
         _sheet?.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
+        
+        FurnitureDataService.OnVariantsLoaded += HandleVariantsLoaded;
+        FurnitureDataService.OnVariantsFailed += OnVariantsFailed;
+    }
+    
+    void OnDestroy()
+    {
+        FurnitureDataService.OnVariantsLoaded -= HandleVariantsLoaded;
+        FurnitureDataService.OnVariantsFailed -= OnVariantsFailed;
+    }
+    
+    private void HandleVariantsLoaded(List<ProductVariantModel> variants)
+    {
+        if (_colorRow == null) return;
+        _colorRow.Clear();
+
+        var colourVariants = variants.FindAll(v => v.HasColourVariant);
+
+        if (colourVariants.Count == 0)
+        {
+            BuildColorSwatches(_currentItemKey);
+            return;
+        }
+
+        bool first = true;
+        foreach (var variant in colourVariants)
+        {
+            var swatch = new VisualElement();
+            swatch.AddToClassList("item-detail-color-swatch");
+            if (first) swatch.AddToClassList("item-detail-color-swatch--selected");
+
+            // Use image as background if available, otherwise grey placeholder
+            swatch.style.backgroundColor = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
+
+            var tooltip = new Label(variant.VariantValue);
+            tooltip.style.display = DisplayStyle.None;
+            swatch.Add(tooltip);
+
+            swatch.RegisterCallback<ClickEvent>(evt =>
+            {
+                evt.StopPropagation();
+                foreach (var s in _colorRow.Children())
+                    s.RemoveFromClassList("item-detail-color-swatch--selected");
+                swatch.AddToClassList("item-detail-color-swatch--selected");
+
+                if (_dimensionsLabel != null)
+                    _dimensionsLabel.text = variant.FormattedPrice;
+            });
+
+            _colorRow.Add(swatch);
+            first = false;
+        }
+    }
+
+    private void OnVariantsFailed(string message)
+    {
+        Debug.Log($"[ItemDetailSheetController] Variants not available: {message}");
+        // Fallback swatches already shown from BuildColorSwatches
     }
 
     // ---------------------------------------------------------------
     // OPEN
     // ---------------------------------------------------------------
 
-    public void Open(string emoji, string brand, string name, string dimensions)
+    public void Open(string emoji, string name, string price, string productId)
     {
-        _currentItemKey = $"{brand} {name}";
+        _currentItemKey = productId;
 
         if (_emojiLabel      != null) _emojiLabel.text      = emoji;
-        if (_brandLabel      != null) _brandLabel.text      = brand;
+        if (_brandLabel      != null) _brandLabel.text      = "IKEA";
         if (_nameLabel       != null) _nameLabel.text       = name;
-        if (_dimensionsLabel != null) _dimensionsLabel.text = dimensions;
+        if (_dimensionsLabel != null) _dimensionsLabel.text = price;
         if (_favIcon         != null) _favIcon.text         = "☆";
 
         if (_descriptionLabel != null)
         {
-            _descriptionLabel.text = ItemDescriptions.TryGetValue(_currentItemKey, out var desc)
+            _descriptionLabel.text = ItemDescriptions.TryGetValue(name, out var desc)
                 ? desc
                 : "A quality furniture piece designed for comfort and durability.";
         }
 
-        BuildColorSwatches(_currentItemKey);
+        BuildColorSwatches(name);
 
         _overlay.style.display = DisplayStyle.Flex;
         _isOpen = true;
 
         if (_animCoroutine != null) StopCoroutine(_animCoroutine);
         _animCoroutine = StartCoroutine(SlideIn());
-    }
 
+        // Load real variants silently in background
+        if (!string.IsNullOrEmpty(productId))
+            _ = FurnitureDataService.Instance.LoadVariants(productId);
+    }
     public void Close()
     {
         if (!_isOpen) return;
@@ -229,4 +291,6 @@ public class ItemDetailSheetController : MonoBehaviour
         _overlay.style.display = DisplayStyle.None;
         OnSheetClosed?.Invoke();
     }
+    
+    
 }
